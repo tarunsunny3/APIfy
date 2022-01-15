@@ -1,4 +1,4 @@
-# Cuvette Hand On Project Starter
+# APIfy Marketplace app
 
 ## Getting Started
 
