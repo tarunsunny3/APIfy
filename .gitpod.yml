@@ -4,12 +4,16 @@ tasks:
     init: |
       cd backend
       npm install
-    command: npm start
+    command: |
+      cd backend
+      npm start
   - name: Frontend
     init: |
       cd frontend
       npm install
-    command: npm start
+    command: |
+      cd frontend
+      npm start
 ports:
   - port: 3000
     onOpen: open-preview
