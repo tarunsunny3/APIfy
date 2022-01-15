@@ -1,6 +1,6 @@
 # Learn more about this file at https://www.gitpod.io/docs/references/gitpod-yml
 tasks:
-  - init: npm install
+  - init: cd backend && npm install
     command: npm start
 ports:
   - port: 3000
