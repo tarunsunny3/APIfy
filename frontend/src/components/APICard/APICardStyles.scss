@@ -1,0 +1,21 @@
+.api-card {
+  border: 1px solid grey;
+  width: 25vw;
+  height: 10%;
+  box-shadow: 5px 10px #888888;
+  //   margin-bottom: 2%;
+  img {
+    width: 100%;
+    object-fit: cover;
+    height: 200px;
+  }
+}
+
+.api-title {
+  font-weight: bold;
+  font-size: larger;
+  padding: 5px 10px;
+}
+.api-desc {
+  padding: 5px 10px;
+}

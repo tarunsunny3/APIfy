@@ -4,9 +4,10 @@ tasks:
     init: |
       cd backend
       npm install
+      npm i -g nodemon
     command: |
       cd backend
-      npm start
+      npm run dev
   - name: Frontend
     init: |
       cd frontend
