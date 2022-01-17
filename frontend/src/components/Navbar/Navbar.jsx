@@ -1,17 +1,27 @@
 import React from "react";
-import { Link } from "react-router-dom/";
+import { NavLink } from "react-router-dom/";
 import "./NavbarStyles.scss";
 const Navbar = () => {
   return (
     <div className="navbar">
       <p className="title">APIfy</p>
       <div className="links">
-        <Link to="/" className="navbar-button">
+        <NavLink
+          className={(isActive) =>
+            "navbar-button " + (isActive ? "unselected" : "")
+          }
+          to="/login"
+        >
           Login/Signup
-        </Link>
-        <Link to="/" className="navbar-button">
+        </NavLink>
+        <NavLink
+          className={(isActive) =>
+            "navbar-button" + (!isActive ? " unselected" : "")
+          }
+          to="/newAPI"
+        >
           +New API
-        </Link>
+        </NavLink>
       </div>
     </div>
   );
