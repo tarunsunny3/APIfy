@@ -1,21 +1,49 @@
 .api-card {
   border: 1px solid grey;
-  width: 25vw;
-  height: 10%;
+  width: 20%;
+  // height: 10%;
   box-shadow: 5px 10px #888888;
+  margin: 20px;
   //   margin-bottom: 2%;
   img {
     width: 100%;
     object-fit: cover;
-    height: 200px;
+    height: 300px;
   }
 }
 
 .api-title {
   font-weight: bold;
   font-size: larger;
-  padding: 5px 10px;
+  padding: 5% 10%;
 }
 .api-desc {
-  padding: 5px 10px;
+  padding: 5% 10%;
+}
+
+@media (max-width: 480px) {
+  .api-card {
+    width: 80%;
+  }
+}
+
+/* Media Query for low resolution  Tablets, Ipads */
+@media (min-width: 481px) and (max-width: 767px) {
+  .api-card {
+    width: 60%;
+  }
+}
+
+/* Media Query for Tablets Ipads portrait mode */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .api-card {
+    width: 40%;
+  }
+}
+
+/* Media Query for Laptops and Desktops */
+@media (min-width: 1025px) and (max-width: 1280px) {
+  .api-card {
+    width: 25%;
+  }
 }

@@ -4,7 +4,9 @@ import "./DashboardStyles.scss";
 const Dashboard = () => {
   return (
     <div className="container">
-      <h1 style={{ textAlign: "center", color: "blueviolet" }}>All APIs</h1>
+      <h1 style={{ textAlign: "center", color: "blueviolet" }}>
+        All APIs available
+      </h1>
       <div className="apis">
         <APICard
           apiTitle="Background Remover"

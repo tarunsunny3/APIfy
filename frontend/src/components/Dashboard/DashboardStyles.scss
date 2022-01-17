@@ -12,10 +12,10 @@
 
 .apis {
   display: flex;
-  gap: 50px;
+  // gap: 50px;
   justify-content: space-evenly;
   flex-wrap: wrap;
   align-items: center;
-  width: 100%;
+  width: 100vw;
   margin-bottom: 2%;
 }
