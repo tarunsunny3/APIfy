@@ -1,10 +1,13 @@
 import React from "react";
-import { NavLink } from "react-router-dom/";
+import { NavLink, useNavigate } from "react-router-dom/";
 import "./NavbarStyles.scss";
 const Navbar = () => {
+  const navigate = useNavigate();
   return (
     <div className="navbar">
-      <p className="title">APIfy</p>
+      <p onClick={() => navigate("/")} className="title">
+        APIfy
+      </p>
       <div className="links">
         <NavLink
           className={(isActive) =>

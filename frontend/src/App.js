@@ -3,10 +3,8 @@ import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Dashboard from "./components/Dashboard/Dashboard";
 import Navbar from "./components/Navbar/Navbar";
+import Login from "./pages/Login/Login";
 
-function Login() {
-  return <p>Login Page</p>;
-}
 function NewApi() {
   return <p>New API page</p>;
 }
