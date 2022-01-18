@@ -3,8 +3,8 @@ tasks:
   - name: Backend
     init: |
       cd backend
-      npm install
       npm i -g nodemon
+      npm install
     command: |
       cd backend
       npm run dev
