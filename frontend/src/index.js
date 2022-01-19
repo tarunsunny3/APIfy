@@ -2,7 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
+import axios from 'axios';
 import reportWebVitals from './reportWebVitals';
+
+axios.defaults.baseURL = 'https://8080-tarunsunny3-apify-43i3jmtoueb.ws-us27.gitpod.io';
 
 ReactDOM.render(
   <React.StrictMode>

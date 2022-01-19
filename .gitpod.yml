@@ -3,7 +3,7 @@ tasks:
   - name: Backend
     init: |
       cd backend
-      npm i -g nodemon
+      npm i -g --save nodemon
       npm install
     command: |
       cd backend

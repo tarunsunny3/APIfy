@@ -21,7 +21,7 @@ const Navbar = () => {
           className={(isActive) =>
             "navbar-button" + (!isActive ? " unselected" : "")
           }
-          to="/newAPI"
+          to="/new-api"
         >
           +New API
         </NavLink>

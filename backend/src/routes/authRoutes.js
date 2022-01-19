@@ -26,7 +26,8 @@ router.post(
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({
+      return res.json({
+        error: true,
         errors: errors.array(),
       });
     }
@@ -37,8 +38,9 @@ router.post(
         email,
       });
       if (user) {
-        return res.status(400).json({
-          msg: 'User Already Exists',
+        return res.json({
+          success: false,
+          message: 'User Already Exists',
         });
       }
 
@@ -68,6 +70,7 @@ router.post(
         (err, token) => {
           if (err) throw err;
           res.status(200).json({
+            success: true,
             token,
           });
         },
@@ -75,7 +78,7 @@ router.post(
       return 0;
     } catch (err) {
       console.log(err.message);
-      res.status(500).send('Error in Saving');
+      res.json({ success: false, message: 'Error in Saving' });
     }
   },
 );
@@ -92,7 +95,8 @@ router.post(
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
-      return res.status(400).json({
+      return res.json({
+        error: true,
         errors: errors.array(),
       });
     }
@@ -103,14 +107,16 @@ router.post(
         email,
       });
       if (!user) {
-        return res.status(400).json({
-          message: 'User Not Exist',
+        return res.json({
+          success: false,
+          message: "User doesn't Exist",
         });
       }
 
       const isMatch = await bcrypt.compare(password, user.password);
       if (!isMatch) {
-        return res.status(400).json({
+        return res.json({
+          success: false,
           message: 'Incorrect Password !',
         });
       }
@@ -130,13 +136,14 @@ router.post(
         (err, token) => {
           if (err) throw err;
           res.status(200).json({
+            success: true,
             token,
           });
         },
       );
     } catch (e) {
       console.error(e);
-      res.status(500).json({
+      res.json({
         message: 'Server Error',
       });
     }
