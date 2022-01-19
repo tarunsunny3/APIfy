@@ -24,6 +24,9 @@
       line-height: 30px;
       letter-spacing: -0.02em;
     }
+    .icon{
+      color: #142683;
+    }
   }
 }
 .column2 {
@@ -32,8 +35,9 @@
   font-family: DM Sans;
   .form-box {
     // margin-left: 20%;
-    padding: 6% 6% 20%;
-    // padding: 10%;
+    // padding: 6% 6% 6%;
+    padding: 6%;
+    margin-bottom: 2%;
     // width: 50%;
     height: 100%;
     border: 1px solid #ccc;

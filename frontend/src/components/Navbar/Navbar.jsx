@@ -13,7 +13,7 @@ const Navbar = () => {
           className={(isActive) =>
             "navbar-button " + (isActive ? "unselected" : "")
           }
-          to="/login"
+          to="/login-signup"
         >
           Login/Signup
         </NavLink>

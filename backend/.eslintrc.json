@@ -12,6 +12,7 @@
   "plugins": ["prettier"],
   "rules": {
     "no-console": "off",
+    "consistent-return": 0,
     "prettier/prettier": [
       "error",
       {

@@ -3,7 +3,7 @@ import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Dashboard from "./components/Dashboard/Dashboard";
 import Navbar from "./components/Navbar/Navbar";
-import Login from "./pages/Login/Login";
+import LoginSignup from "./pages/LoginSignup/LoginSignup";
 
 function NewApi() {
   return <p>New API page</p>;
@@ -14,7 +14,7 @@ function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<Dashboard />} />
-        <Route path="/login" element={<Login />} />
+        <Route path="/login-signup" element={<LoginSignup />} />
         <Route path="/newAPI" element={<NewApi />} />
       </Routes>
     </Router>
