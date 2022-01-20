@@ -12,7 +12,7 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(express.json());
-app.use(cors());
+app.use(cors({credentials: true, origin: true, "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",}));
 app.use(cookieParser());
 // DB config
 

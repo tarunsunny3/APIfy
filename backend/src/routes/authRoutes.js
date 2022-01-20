@@ -83,6 +83,12 @@ router.post(
   },
 );
 
+
+/**
+ * @method - POST
+ * @param - /api/auth/signup
+ * @description - User SignUp
+ */
 router.post(
   '/login',
   [
@@ -154,6 +160,21 @@ router.post(
   },
 );
 
+
+/**
+ * @method - GET
+ * @param - /api/auth/logout
+ * @description -Logout
+ */
+router.get('/logout', requireAuth, (req, res)=>{
+  try{
+  res.cookie("token", "", { maxAge: -1})
+    res.sendStatus(200);
+  }catch(e){
+    res.sendStatus(400).json({success: false});
+  }
+});
+
 /**
  * @method - GET
  * @description - Get LoggedIn User
@@ -166,7 +187,7 @@ router.get('/decodedUser', requireAuth, async (req, res) => {
   } else {
     try {
       const userDetails = await User.findOne({ id: user.id });
-      res.json({ user: userDetails, success: true });
+      res.json({ user: {id: userDetails.id, ...userDetails}, success: true });
     } catch (error) {
       res.json({ success: false });
     }

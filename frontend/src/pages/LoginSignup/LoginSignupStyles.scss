@@ -9,7 +9,7 @@
   
 }
 .column1 {
-  // padding-left: 10%;
+  padding-left: 10%;
   flex-basis: 40%;
 
   .text-box {
@@ -70,6 +70,9 @@
 @media (max-width: 480px) {
   .container{
     flex-direction: column;
+  }
+  .column1{
+    padding-left: 0%;
   }
   .column2{
     width: 100%;

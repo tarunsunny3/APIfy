@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useFormik } from "formik";
-import {useNavigate} from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import "./LoginSignupStyles.scss";
-import '../../styles/globalStyles.scss';
+import "../../styles/globalStyles.scss";
+import { userContext } from "../../userContext";
 
 const validate = (values, isLogin) => {
   const errors = {};
@@ -19,7 +20,7 @@ const validate = (values, isLogin) => {
     } else if (values.confirmPassword !== values.password) {
       errors.confirmPassword =
         "Both password and confirm passwords must be same";
-     } else if (values.confirmPassword.length < 6) {
+    } else if (values.confirmPassword.length < 6) {
       errors.confirmPassword = "Password length must be atleast 6 chars";
     }
   }
@@ -37,7 +38,11 @@ const LoginSignup = () => {
   //when the user clicks on register, then isLogin will be ste to false
   //false means it is a register page
   const [isLogin, setIsLogin] = useState(true);
-  const [message, setMessage] = useState({msgType: "error", msg: ""});
+
+  //Usercontext
+  const { setLoggedIn, setUser } = React.useContext(userContext);
+
+  const [message, setMessage] = useState({ msgType: "error", msg: "" });
   const [errors, setErrors] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -51,18 +56,23 @@ const LoginSignup = () => {
       );
       console.log(res.data);
       if (res.data.success === false) {
-        setMessage({msgType: "error", msg:  res.data.message});
+        setMessage({ msgType: "error", msg: res.data.message });
       } else if (res.data.error) {
         setErrors(res.data.errors);
       }
 
-      if(res.data.success){
-        if(isLogin){
-          navigate('/new-api');
-        }else{
+      if (res.data.success) {
+        if (isLogin) {
+          setUser({ id: "1" });
+          setLoggedIn(true);
+          navigate("/new-api", { replace: true });
+        } else {
           setErrors([]);
           setIsLogin(!isLogin);
-          setMessage({msgType: "success", msg: "Thank you for signing up, please login"});
+          setMessage({
+            msgType: "success",
+            msg: "Thank you for signing up, please login",
+          });
         }
       }
       setLoading(false);
@@ -73,8 +83,8 @@ const LoginSignup = () => {
 
   const formik = useFormik({
     initialValues: {
-      email: "",
-      password: "",
+      email: "tarunsunny3@gmail.com",
+      password: "tarunsunny3",
       confirmPassword: "",
     },
     validate: (values) => validate(values, isLogin),
@@ -127,9 +137,15 @@ const LoginSignup = () => {
                 </p>
               );
             })}
-          {message.msg.length !== 0 && <p className={message.msgType=="error" ? "error": "success"}>{message.msg}</p>}
+          {message.msg.length !== 0 && (
+            <p className={message.msgType == "error" ? "error" : "success"}>
+              {message.msg}
+            </p>
+          )}
           {isLogin ? (
-            <h3 style={{ marginTop: "2%", marginBottom: "2%" }}>Login to your account</h3>
+            <h3 style={{ marginTop: "2%", marginBottom: "2%" }}>
+              Login to your account
+            </h3>
           ) : (
             <h3 style={{ marginTop: "2%", marginBottom: "2%" }}>Sign up</h3>
           )}
@@ -189,7 +205,7 @@ const LoginSignup = () => {
             onClick={(e) => {
               e.preventDefault();
               setIsLogin(!isLogin);
-              setMessage({msgType: "error", msg: ""});
+              setMessage({ msgType: "error", msg: "" });
             }}
           >
             {isLogin
