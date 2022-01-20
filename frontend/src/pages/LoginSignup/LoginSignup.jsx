@@ -3,6 +3,7 @@ import axios from "axios";
 import { useFormik } from "formik";
 import {useNavigate} from 'react-router-dom';
 import "./LoginSignupStyles.scss";
+import '../../styles/globalStyles.scss';
 
 const validate = (values, isLogin) => {
   const errors = {};

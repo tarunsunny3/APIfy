@@ -5,7 +5,7 @@ import App from './App';
 import axios from 'axios';
 import reportWebVitals from './reportWebVitals';
 
-axios.defaults.baseURL = 'https://8080-tarunsunny3-apify-43i3jmtoueb.ws-us27.gitpod.io';
+axios.defaults.baseURL = 'https://8080-tarunsunny3-apify-bxe07c76lwp.ws-us27.gitpod.io';
 
 ReactDOM.render(
   <React.StrictMode>
