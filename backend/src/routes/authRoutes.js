@@ -3,7 +3,7 @@ const { check, validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
-const auth = require('../middlewares/auth');
+const { requireAuth } = require('../middlewares/auth');
 
 const router = express.Router();
 
@@ -126,7 +126,6 @@ router.post(
           id: user.id,
         },
       };
-
       jwt.sign(
         payload,
         process.env.JWT_SECRET,
@@ -135,9 +134,14 @@ router.post(
         },
         (err, token) => {
           if (err) throw err;
+          res.cookie('token', token, {
+            maxAge: 10 * 24 * 60 * 60 * 60,
+            httpOnly: false,
+            sameSite: 'none',
+            secure: true,
+          });
           res.status(200).json({
             success: true,
-            token,
           });
         },
       );
@@ -153,15 +157,19 @@ router.post(
 /**
  * @method - GET
  * @description - Get LoggedIn User
- * @param - /api/auth/me
+ * @param - /api/auth/decodedUser
  */
-router.get('/me', auth, async (req, res) => {
-  try {
-    // request.user is getting fetched from Middleware after token authentication
-    const user = await User.findById(req.user.id);
-    res.json(user);
-  } catch (e) {
-    res.send({ message: 'Error in Fetching user' });
+router.get('/decodedUser', requireAuth, async (req, res) => {
+  const user = req.decoded;
+  if (user.id === null) {
+    res.json({ user: req.decoded });
+  } else {
+    try {
+      const userDetails = await User.findOne({ id: user.id });
+      res.json({ user: userDetails, success: true });
+    } catch (error) {
+      res.json({ success: false });
+    }
   }
 });
 module.exports = router;

@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const authRouter = require('./routes/authRoutes');
 
@@ -12,6 +13,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(express.json());
 app.use(cors());
+app.use(cookieParser());
 // DB config
 
 mongoose.connect(process.env.MONGODB_URI, {

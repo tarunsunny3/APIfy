@@ -1,15 +1,37 @@
 const jwt = require('jsonwebtoken');
 
-module.exports = (req, res, next) => {
-  const token = req.header('token');
-  if (!token) return res.status(401).json({ message: 'Auth Error' });
-
+const requireAuth = async (req, res, next) => {
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded.user;
-    next();
-  } catch (e) {
-    console.error(e);
-    res.status(500).send({ message: 'Invalid Token' });
+    // const token = await req.headers['x-access-token'];
+    const token = (await req.cookies.token) || '';
+    // console.log("REq cookies is ", req.cookies);
+    // check json web token exists & is verified
+    if (token) {
+      // console.log(process.env.JWT_SECRET);
+      jwt.verify(token, process.env.JWT_SECRET, (err, decodedToken) => {
+        if (err) {
+          console.log(err);
+          console.log(err.message);
+          res.clearCookie('token');
+          res.sendStatus(200);
+          // next();
+          //  res.redirect('/');
+        } else {
+          // res.json({ decoded });
+          req.decoded = decodedToken;
+          next();
+        }
+      });
+    } else {
+      console.log('Token not found');
+      req.decoded = {
+        id: null,
+        username: null,
+      };
+      next();
+    }
+  } catch (err) {
+    console.error(err.message);
   }
 };
+module.exports = { requireAuth };
