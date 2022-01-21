@@ -7,6 +7,7 @@ import Navbar from "./components/Navbar/Navbar";
 import LoginSignup from "./pages/LoginSignup/LoginSignup";
 import { userContext } from "./userContext";
 import ProtectedRoute from "./utils/ProtectedRoute";
+import BgRemoverApp from "./components/BgRemoveApp/BgRemoverApp";
 
 function NewApi() {
   return <p>This is new API page</p>;
@@ -44,6 +45,10 @@ function App() {
           <Route
             path="/new-api"
             element={<ProtectedRoute component={NewApi} />}
+          />
+          <Route
+            path="/bg-remover-app"
+            element={<ProtectedRoute component={BgRemoverApp} />}
           />
         </Routes>
       </userContext.Provider>

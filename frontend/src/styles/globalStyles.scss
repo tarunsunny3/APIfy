@@ -1,3 +1,12 @@
+@mixin navbar-button($color) {
+  // background-color: #142683;
+  background-color: $color;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  padding: 0.7em 1em;
+  cursor: pointer;
+}
 .error {
     color: red;
   }

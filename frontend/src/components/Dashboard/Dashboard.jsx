@@ -1,4 +1,5 @@
 import React from "react";
+import {NavLink} from 'react-router-dom';
 import APICard from "../APICard/APICard";
 import "./DashboardStyles.scss";
 const Dashboard = () => {
@@ -11,7 +12,7 @@ const Dashboard = () => {
           <div className="text-box">
             <p className="title">Background Image Remover</p>
             <p className="subtitle">100% automatic and free</p>
-            <button className="btn">View app</button>
+            <NavLink to="/bg-remover-app" className="btn">View app</NavLink>
           </div>
         </div>
         <h1 className="side-heading">All APIs available</h1>
