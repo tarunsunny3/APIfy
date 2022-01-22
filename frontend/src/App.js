@@ -46,10 +46,7 @@ function App() {
             path="/new-api"
             element={<ProtectedRoute component={NewApi} />}
           />
-          <Route
-            path="/bg-remover-app"
-            element={<ProtectedRoute component={BgRemoverApp} />}
-          />
+          <Route path="/bg-remover-app" element={<BgRemoverApp />} />
         </Routes>
       </userContext.Provider>
     </Router>
