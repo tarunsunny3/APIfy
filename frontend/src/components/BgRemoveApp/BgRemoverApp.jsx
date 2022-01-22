@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { animateScroll as scroll } from "react-scroll";
 import "./BgRemoverAppStyles.scss";
 
 const BgRemoverApp = () => {
@@ -7,26 +6,30 @@ const BgRemoverApp = () => {
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [validFiles, setValidFiles] = useState([]);
   const [unsupportedFiles, setUnsupportedFiles] = useState([]);
+  const [selectedFile, setSelectedFile] = useState();
   const [errorMessage, setErrorMessage] = useState("");
 
-  useEffect(() => {
-    let filteredArr = selectedFiles.reduce((acc, current) => {
-      const x = acc.find((item) => item.name === current.name);
-      if (!x) {
-        var reader = new FileReader();
-        let link = "";
-        reader.onload = function (e) {
-          link = e.target.result;
-        };
-        console.log("link is " + link);
-        reader.readAsDataURL(current);
-        return acc.concat([{ ...current, link }]);
-      } else {
-        return acc;
-      }
-    }, []);
-    setValidFiles([...filteredArr]);
-  }, [selectedFiles]);
+  const blobToData = (blob) => {
+    return new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result);
+      reader.readAsDataURL(blob);
+    });
+  };
+  // useEffect(() => {
+  //   async function writeFilteredArray() {
+  //     let filteredArr = [];
+  //     for (let i = 0; i < selectedFiles.length; i++) {
+  //       let fileObject = selectedFiles[i];
+  //       let newVal = { file: fileObject.file };
+  //       newVal["link"] = await blobToData(fileObject.file);
+  //       filteredArr.push(newVal);
+  //     }
+
+  //     setValidFiles([...filteredArr]);
+  //   }
+  //   writeFilteredArray();
+  // }, [selectedFiles]);
 
   useEffect(() => {
     if (errorMessage.length > 0) {
@@ -72,20 +75,26 @@ const BgRemoverApp = () => {
     }
     return true;
   };
-  const handleFiles = (files) => {
-    for (let i = 0; i < files.length; i++) {
-      if (validateFile(files[i])) {
-        setSelectedFiles((prevArray) => [...prevArray, files[i]]);
-      } else {
-        // files[i]["invalid"] = true;
-        // setSelectedFiles((prevArray) => [...prevArray, files[i]]);
+  const handleFiles = async (files) => {
+    // for (let i = 0; i < files.length; i++) {
+    if (validateFile(files[0])) {
+      let link = await blobToData(files[0]);
+      let imgEl = `<img src="${link}" />`;
+      document.getElementById("upload-area").style.display = "block";
+      // document.getElementById("upload-area").style.height = "50%";
+      // document.getElementById("upload-area").style.width = "100%";
+      document.getElementById("upload-area").innerHTML = imgEl;
+      // setSelectedFile({file: files[0], link});
+    } else {
+      // files[i]["invalid"] = true;
+      // setSelectedFiles((prevArray) => [...prevArray, files[i]]);
 
-        setErrorMessage(`(${files[i].name}) File type not permitted`);
-        // document.getElementById("alert").scrollIntoView();
+      setErrorMessage(`(${files[0].name}) File type not permitted`);
+      // document.getElementById("alert").scrollIntoView();
 
-        // setUnsupportedFiles((prevArray) => [...prevArray, files[i]]);
-      }
+      // setUnsupportedFiles((prevArray) => [...prevArray, files[i]]);
     }
+    // }
   };
   const fileSize = (size) => {
     if (size === 0) {
@@ -116,29 +125,19 @@ const BgRemoverApp = () => {
 
     // // scroll to element
     // element.scrollIntoView({ behavior: "smooth", block: "start" });
-    var reader = new FileReader();
-    var imgTag = document.getElementById("uploaded-img");
-    reader.onload = function (e) {
-      console.log(e.target.result);
-    };
-    reader.readAsDataURL(files[files.length - 1]);
   };
   const removeFile = (name) => {
-    const index = validFiles.findIndex((e) => e.name === name);
-    const index2 = selectedFiles.findIndex((e) => e.name === name);
-    const index3 = unsupportedFiles.findIndex((e) => e.name === name);
+    const index = validFiles.findIndex((e) => e.file.name === name);
+    const index2 = selectedFiles.findIndex((e) => e.file.name === name);
+    // const index3 = unsupportedFiles.findIndex((e) => e.name === name);
     validFiles.splice(index, 1);
     selectedFiles.splice(index2, 1);
     setValidFiles([...validFiles]);
     setSelectedFiles([...selectedFiles]);
-    if (index3 !== -1) {
-      unsupportedFiles.splice(index3, 1);
-      setUnsupportedFiles([...unsupportedFiles]);
-    }
   };
   return (
-    <div className="container">
-      <div className="column1">
+    <div className="bg-container">
+      <div className="column-left">
         <div className="text-box">
           <p className="content-title">Remove Image background</p>
           <p className="content-subtitle">100% automatic and free</p>
@@ -149,7 +148,7 @@ const BgRemoverApp = () => {
           />
         </div>
       </div>
-      <div className="column2">
+      <div className="column-right">
         {errorMessage.length > 0 && (
           <p className="alert-box" id="alert">
             {errorMessage}
@@ -163,7 +162,7 @@ const BgRemoverApp = () => {
           </p>
         )}
 
-        <div className="upload-body">
+        <div className="upload-body" id="upload-area">
           <div
             className={`drag-area ${isActive ? "active" : ""}`}
             onDragOver={dragOver}
@@ -180,36 +179,44 @@ const BgRemoverApp = () => {
             <input type="file" hidden />
           </div>
         </div>
-        <img id="uploaded-img" src="#" width={400} height={400} />
-        <div id="file-container" className="file-display-container">
+        {validFiles.length > 0 && (
+          <button className="remove-bg-btn">Remove BG</button>
+        )}
+        {/* <div id="file-container" className="file-display-container">
           {validFiles.map((data, i) => (
             <div className="file-status-bar" key={i}>
-              <div
-              // onClick={
-              //   !data.invalid
-              //     ? () => openImageModal(data)
-              //     : () => removeFile(data.name)
-              // }
-              >
-                <div className="file-type-logo"></div>
-                <div className="file-type">{fileType(data.name)}</div>
+              {/* <div className="file-type-logo"></div>
+                <div className="file-type">{fileType(data.file.name)}</div>
                 <span
                   className={`file-name ${data.invalid ? "file-error" : ""}`}
                 >
-                  {data.name}
+                  {data.file.name}
                 </span>
-                <span className="file-size">({fileSize(data.size)})</span>{" "}
-                <img src={data.link} width={200} height={200} />
-              </div>
-              <div
-                className="file-remove"
-                onClick={() => removeFile(data.name)}
-              >
-                X
+                <span className="file-size">({fileSize(data.file.size)})</span>{" "} 
+              <div className="image-container">
+                <img
+                  className="uploaded-img"
+                  src={data.link}
+                  width={200}
+                  height={200}
+                />
+                <p
+                  onClick={() => {
+                    removeFile(data.file.name);
+                    console.log(data.file.name);
+                  }}
+                >
+                  <span>
+                    <i
+                      className="fa fa-window-close delete-icon"
+                      aria-hidden="true"
+                    ></i>
+                  </span>
+                </p>
               </div>
             </div>
           ))}
-        </div>
+        </div> */}
         {/* <div className="upload-box">
           <p>
             <span>
