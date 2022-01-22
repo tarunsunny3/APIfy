@@ -6,7 +6,7 @@ const BgRemoverApp = () => {
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [validFiles, setValidFiles] = useState([]);
   const [unsupportedFiles, setUnsupportedFiles] = useState([]);
-  const [selectedFile, setSelectedFile] = useState();
+  const [selectedFile, setSelectedFile] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
 
   const blobToData = (blob) => {
@@ -67,29 +67,37 @@ const BgRemoverApp = () => {
       "image/x-icon",
     ];
     if (validTypes.indexOf(file.type) === -1) {
-      return false;
+      return { result: false, message: "File type not permitted" };
     }
     const fileSize = file.size;
     if (fileSize > 2 * 1024 * 1024) {
-      return false;
+      return { result: false, message: "File Size must be less than 2 MB" };
     }
-    return true;
+    return { result: true, message: "" };
   };
   const handleFiles = async (files) => {
     // for (let i = 0; i < files.length; i++) {
-    if (validateFile(files[0])) {
+    let res = validateFile(files[0]);
+    if (res.result) {
       let link = await blobToData(files[0]);
-      let imgEl = `<img src="${link}" />`;
-      document.getElementById("upload-area").style.display = "block";
+      // let imgEl = `<img  src="${link}" />`;
+      setSelectedFile({ file: files[0], link });
+      let area = document.querySelector("#uploaded-img");
+      // area.style.width = "100px";
+      // area.style.height = "500px";
+      // area.style.display = "block";
+      // area.style.display = "inline-block";
+      // area.style.position = "relative";
+      area.setAttribute("src", link);
+
       // document.getElementById("upload-area").style.height = "50%";
       // document.getElementById("upload-area").style.width = "100%";
-      document.getElementById("upload-area").innerHTML = imgEl;
-      // setSelectedFile({file: files[0], link});
+      // document.getElementById("uploaded-img").setAttribute("src", link);
     } else {
       // files[i]["invalid"] = true;
       // setSelectedFiles((prevArray) => [...prevArray, files[i]]);
 
-      setErrorMessage(`(${files[0].name}) File type not permitted`);
+      setErrorMessage(`(${files[0].name}) ${res.message}`);
       // document.getElementById("alert").scrollIntoView();
 
       // setUnsupportedFiles((prevArray) => [...prevArray, files[i]]);
@@ -127,13 +135,14 @@ const BgRemoverApp = () => {
     // element.scrollIntoView({ behavior: "smooth", block: "start" });
   };
   const removeFile = (name) => {
-    const index = validFiles.findIndex((e) => e.file.name === name);
-    const index2 = selectedFiles.findIndex((e) => e.file.name === name);
-    // const index3 = unsupportedFiles.findIndex((e) => e.name === name);
-    validFiles.splice(index, 1);
-    selectedFiles.splice(index2, 1);
-    setValidFiles([...validFiles]);
-    setSelectedFiles([...selectedFiles]);
+    // const index = validFiles.findIndex((e) => e.file.name === name);
+    // const index2 = selectedFiles.findIndex((e) => e.file.name === name);
+    // // const index3 = unsupportedFiles.findIndex((e) => e.name === name);
+    // validFiles.splice(index, 1);
+    // selectedFiles.splice(index2, 1);
+    // setValidFiles([...validFiles]);
+    // setSelectedFiles([...selectedFiles]);
+    setSelectedFile(null);
   };
   return (
     <div className="bg-container">
@@ -162,7 +171,8 @@ const BgRemoverApp = () => {
           </p>
         )}
 
-        <div className="upload-body" id="upload-area">
+        {/* <div className="upload-body" id="upload-area"> */}
+        {selectedFile == null && (
           <div
             className={`drag-area ${isActive ? "active" : ""}`}
             onDragOver={dragOver}
@@ -178,10 +188,45 @@ const BgRemoverApp = () => {
             <button>Browse File</button>
             <input type="file" hidden />
           </div>
-        </div>
-        {validFiles.length > 0 && (
-          <button className="remove-bg-btn">Remove BG</button>
         )}
+        {/* </div> */}
+
+        {selectedFile != null && (
+          <div className="upload-body">
+            <div className="image-container">
+              <div className="img-container">
+                <img
+                  src="#"
+                  alt="Uploaded image"
+                  id="uploaded-img"
+                  className="uploaded-image"
+                />
+                <p
+                  onClick={() => {
+                    removeFile(selectedFile.name);
+                  }}
+                >
+                  <span>
+                    <i
+                      className="fa fa-window-close delete-icon"
+                      aria-hidden="true"
+                    ></i>
+                  </span>
+                </p>
+              </div>
+            </div>
+            <button className="remove-bg-btn">Remove bg</button>
+          </div>
+        )}
+        {/*             
+            <button
+            onClick={() => {
+              removeFile(selectedFile.name);
+            }}
+            className="remove-bg-btn"
+          >
+            Remove BG
+          </button> */}
         {/* <div id="file-container" className="file-display-container">
           {validFiles.map((data, i) => (
             <div className="file-status-bar" key={i}>
