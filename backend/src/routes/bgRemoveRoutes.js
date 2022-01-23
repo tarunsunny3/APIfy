@@ -12,9 +12,9 @@ router.post('/remove-bg', upload.single('file'), async (req, res) => {
   //   console.log(base64.substring(base64.length - 10));
 
   const formData = new FormData();
-  formData.append('size', 'auto');
+  formData.append('size', 'full');
   formData.append('image_file_b64', base64);
-
+  console.log(formData.size);
   axios({
     method: 'post',
     url: 'https://api.remove.bg/v1.0/removebg',
@@ -29,11 +29,12 @@ router.post('/remove-bg', upload.single('file'), async (req, res) => {
     .then((response) => {
       if (response.status != 200)
         return console.error('Error:', response.status, response.statusText);
-      fs.writeFileSync('no-bg.png', response.data);
+        // console.log(response.data);
+      // fs.writeFileSync('no-bg.png', response.data);
     //   res.json({ success: true });
-    res.download('./no-bg.png', (err)=>{
-        console.log(err);
-    })
+    // res.download('./no-bg.png', (err)=>{
+    //     console.log(err);
+    // })
     })
     .catch((error) => {
       return console.error('Request failed:', error);

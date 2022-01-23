@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./BgRemoverAppStyles.scss";
+import download from  'downloadjs';
 
 const BgRemoverApp = () => {
   const [isActive, setIsActive] = useState(false);
@@ -157,7 +158,10 @@ const BgRemoverApp = () => {
         "Content-Type": "multipart/form-data",
       },
     });
+    let blob = res.data;
     console.log(res);
+    // download(blob, 'removed_bg');
+    // console.log();
   };
   return (
     <div className="bg-container">
