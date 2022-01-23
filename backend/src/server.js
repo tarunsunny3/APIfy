@@ -2,15 +2,17 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+// const upload = require("multer")();
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const authRouter = require('./routes/authRoutes');
-
+const bgRouter = require('./routes/bgRemoveRoutes');
 const app = express();
 
 // Middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+// app.use(upload.single());
 app.use(express.json());
 app.use(cors({credentials: true, origin: true, "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",}));
 app.use(cookieParser());
@@ -37,6 +39,13 @@ app.get('/', (req, res) => {
  * Method - *
  */
 app.use('/api/auth', authRouter);
+
+/**
+ * Router Middleware
+ * Router - /api/bg/*
+ * Method - *
+ */
+ app.use('/api/bg', bgRouter);
 
 const port = process.env.PORT || 8080;
 app.listen(port, () => {

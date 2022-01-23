@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import "./BgRemoverAppStyles.scss";
 
 const BgRemoverApp = () => {
@@ -80,7 +81,9 @@ const BgRemoverApp = () => {
     let res = validateFile(files[0]);
     if (res.result) {
       let link = await blobToData(files[0]);
+      console.log(`link length is ${link.substring(link.length - 5)}`);
       // let imgEl = `<img  src="${link}" />`;
+
       setSelectedFile({ file: files[0], link });
       let area = document.querySelector("#uploaded-img");
       // area.style.width = "100px";
@@ -143,6 +146,18 @@ const BgRemoverApp = () => {
     // setValidFiles([...validFiles]);
     // setSelectedFiles([...selectedFiles]);
     setSelectedFile(null);
+  };
+
+  const removeBG = async () => {
+    var formData = new FormData();
+    formData.append("file", selectedFile.file);
+
+    const res = await axios.post("/api/bg/remove-bg", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    console.log(res);
   };
   return (
     <div className="bg-container">
@@ -215,7 +230,9 @@ const BgRemoverApp = () => {
                 </p>
               </div>
             </div>
-            <button className="remove-bg-btn">Remove bg</button>
+            <button onClick={() => removeBG()} className="remove-bg-btn">
+              Remove bg
+            </button>
           </div>
         )}
         {/*             
