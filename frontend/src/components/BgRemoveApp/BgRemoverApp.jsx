@@ -138,6 +138,9 @@ const BgRemoverApp = () => {
     // // scroll to element
     // element.scrollIntoView({ behavior: "smooth", block: "start" });
   };
+  const fileUpload = (e) =>{
+    console.log(e.target.files);
+  }
   const removeFile = (name) => {
     // const index = validFiles.findIndex((e) => e.file.name === name);
     // const index2 = selectedFiles.findIndex((e) => e.file.name === name);
@@ -204,8 +207,11 @@ const BgRemoverApp = () => {
             </div>
             <header>Drag & Drop to Upload File</header>
             <span>OR</span>
-            <button>Browse File</button>
-            <input type="file" hidden />
+            <button onClick={()=>{
+              const imageInput = document.getElementById('image-input');
+              imageInput.click();
+            }}>Browse File</button>
+            <input onChange={(e) => fileUpload(e)} accept="image/*" type="file" id="image-input" hidden />
           </div>
         )}
         {/* </div> */}
