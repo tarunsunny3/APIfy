@@ -1,22 +1,22 @@
 import React from "react";
 import {NavLink} from 'react-router-dom';
 import APICard from "../APICard/APICard";
-import "./DashboardStyles.scss";
+import styles from "./DashboardStyles.module.scss";
 const Dashboard = () => {
   return (
-    <div className="container">
-      <div className="body">
-        <div className="banner">
-          <img className="img" src="/bg.jfif" alt="Preview" />
-          <div className="semi-circle"></div>
-          <div className="text-box">
-            <p className="title">Background Image Remover</p>
-            <p className="subtitle">100% automatic and free</p>
-            <NavLink to="/bg-remover-app" className="btn">View app</NavLink>
+    <div className={styles["container"]}>
+      <div className={styles["body"]}>
+        <div className={styles["banner"]}>
+          <img className={styles["img"]} src="/bg.jfif" alt="Preview" />
+          <div className={styles["semi-circle"]}></div>
+          <div className={styles["text-box"]}>
+            <p className={styles["title"]}>Background Image Remover</p>
+            <p className={styles["subtitle"]}>100% automatic and free</p>
+            <NavLink to="/bg-remover-app" className={styles["btn"]}>View app</NavLink>
           </div>
         </div>
-        <h1 className="side-heading">All APIs available</h1>
-        <div className="apis">
+        <h1 className={styles["side-heading"]}>All APIs available</h1>
+        <div className={styles["apis"]}>
           <APICard
             apiTitle="Background Remover"
             apiDescription="Now remove your background so easily and without any hassles"

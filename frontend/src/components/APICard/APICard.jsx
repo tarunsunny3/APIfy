@@ -1,12 +1,12 @@
 import React from "react";
-import "./APICardStyles.scss";
+import styles from "./APICardStyles.module.scss";
 
 const APICard = ({ apiImage, apiTitle, apiDescription }) => {
   return (
-    <div className="api-card">
+    <div className={styles["api-card"]}>
       <img src={apiImage} alt="API picture" />
-      <p className="api-title">{apiTitle}</p>
-      <p className="api-desc">{apiDescription}</p>
+      <p className={styles["api-title"]}>{apiTitle}</p>
+      <p className={styles["api-desc"]}>{apiDescription}</p>
     </div>
   );
 };

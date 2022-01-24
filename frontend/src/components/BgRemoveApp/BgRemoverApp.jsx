@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import "./BgRemoverAppStyles.scss";
+import styles from  "./BgRemoverAppStyles.module.scss";
 import download from  'downloadjs';
 
 const BgRemoverApp = () => {
@@ -164,26 +164,26 @@ const BgRemoverApp = () => {
     // console.log();
   };
   return (
-    <div className="bg-container">
-      <div className="column-left">
-        <div className="text-box">
-          <p className="content-title">Remove Image background</p>
-          <p className="content-subtitle">100% automatic and free</p>
+    <div className={styles["bg-container"]}>
+      <div className={styles["column-left"]}>
+        <div className={styles["text-box"]}>
+          <p className={styles["content-title"]}>Remove Image background</p>
+          <p className={styles["content-subtitle"]}>100% automatic and free</p>
           <img
-            className="bg-image"
+            className={styles["bg-image"]}
             src="/bg.jfif"
             alt="sample background image"
           />
         </div>
       </div>
-      <div className="column-right">
+      <div className={styles["column-right"]}>
         {errorMessage.length > 0 && (
-          <p className="alert-box" id="alert">
+          <p className={styles["alert-box"]} id="alert">
             {errorMessage}
             <span>
               <i
                 onClick={() => setErrorMessage("")}
-                className="fa fa-times-circle close-icon"
+                className={"fa fa-times-circle" + styles["close-icon"]}
                 aria-hidden="true"
               ></i>
             </span>
@@ -193,13 +193,13 @@ const BgRemoverApp = () => {
         {/* <div className="upload-body" id="upload-area"> */}
         {selectedFile == null && (
           <div
-            className={`drag-area ${isActive ? "active" : ""}`}
+            className={`${styles["drag-area"]} ${isActive ? styles["active"] : ""}`}
             onDragOver={dragOver}
             onDragEnter={dragEnter}
             onDragLeave={dragLeave}
             onDrop={fileDrop}
           >
-            <div className="icon">
+            <div className={styles["icon"]}>
               <i className="fas fa-cloud-upload-alt"></i>
             </div>
             <header>Drag & Drop to Upload File</header>
@@ -211,14 +211,14 @@ const BgRemoverApp = () => {
         {/* </div> */}
 
         {selectedFile != null && (
-          <div className="upload-body">
-            <div className="image-container">
-              <div className="img-container">
+          <div className={styles["upload-body"]}>
+            <div className={styles["image-container"]}>
+              <div className={styles["img-container"]}>
                 <img
                   src="#"
                   alt="Uploaded image"
                   id="uploaded-img"
-                  className="uploaded-image"
+                  className={styles["uploaded-image"]}
                 />
                 <p
                   onClick={() => {
@@ -227,14 +227,14 @@ const BgRemoverApp = () => {
                 >
                   <span>
                     <i
-                      className="fa fa-window-close delete-icon"
+                      className={"fa fa-window-close" + styles["delete-icon"]}
                       aria-hidden="true"
                     ></i>
                   </span>
                 </p>
               </div>
             </div>
-            <button onClick={() => removeBG()} className="remove-bg-btn">
+            <button onClick={() => removeBG()} className={styles["remove-bg-btn"]}>
               Remove bg
             </button>
           </div>

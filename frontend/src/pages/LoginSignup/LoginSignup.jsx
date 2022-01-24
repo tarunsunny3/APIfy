@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
-import "./LoginSignupStyles.scss";
-// import "../../styles/globalStyles.scss";
+import styles from "./LoginSignupStyles.module.scss";
 import { userContext } from "../../userContext";
 
 const validate = (values, isLogin) => {
@@ -93,52 +92,52 @@ const LoginSignup = () => {
     },
   });
   return (
-    <div className="container">
-      <div className="column1">
-        <div className="text-box">
+    <div className={styles["container"]}>
+      <div className={styles["column1"]}>
+        <div className={styles["text-box"]}>
           <p>
             <span>
               {isLogin ? (
-                <i className="fas fa-2x fa-sign-in-alt icon"></i>
+                <i className={"fas fa-2x fa-sign-in-alt " + styles["icon"]}></i>
               ) : (
                 // <i className="fa-duotone fa-arrow-right-to-bracket"></i>
                 // <i className="fa fa-2x fa-sign-in icon" aria-hidden="true"></i>
-                <i className="fas fa-2x fa-user-plus icon"></i>
+                <i className={"fas fa-2x fa-user-plus " + styles["icon"]}></i>
               )}
             </span>
           </p>
           <br />
           {isLogin ? (
-            <p className="content-title">Welcome to your dashboard</p>
+            <p className={styles["content-title"]}>Welcome to your dashboard</p>
           ) : (
-            <p className="content-title">Welcome to our APIfy market place</p>
+            <p className={styles["content-title"]}>Welcome to our APIfy market place</p>
           )}
 
           {isLogin ? (
-            <p className="content-subtitle">
+            <p className={styles["content-subtitle"]}>
               Your uploaded APIs will be displayed here once you login to your
               account
             </p>
           ) : (
-            <p className="content-subtitle">
+            <p className={styles["content-subtitle"]}>
               Find many APIs, test them and view and upload your own APIs as
               well...
             </p>
           )}
         </div>
       </div>
-      <div className="column2">
-        <div className="form-box">
+      <div className={styles["column2"]}>
+        <div className={styles["form-box"]}>
           {errors.length !== 0 &&
             errors.map((error, index) => {
               return (
-                <p key={index} className="error">
+                <p key={index} className={styles["error"]}>
                   {error.msg}
                 </p>
               );
             })}
           {message.msg.length !== 0 && (
-            <p className={message.msgType == "error" ? "error" : "success"}>
+            <p className={message.msgType == styles["error"] ? styles["error"] : styles["success"]}>
               {message.msg}
             </p>
           )}

@@ -2,7 +2,7 @@ import React from "react";
 import axios from "axios";
 import { NavLink, useNavigate } from "react-router-dom/";
 import { userContext } from "../../userContext";
-import "./NavbarStyles.scss";
+import styles from "./NavbarStyles.module.scss";
 const Navbar = () => {
   const { user, setUser, setLoggedIn } = React.useContext(userContext);
   const navigate = useNavigate();
@@ -15,15 +15,15 @@ const Navbar = () => {
   };
 
   return (
-    <div className="navbar">
-      <p onClick={() => navigate("/")} className="title">
+    <div className={styles.navbar}>
+      <p onClick={() => navigate("/")} className={styles.title}>
         APIfy
       </p>
-      <div className="links">
+      <div className={styles.links}>
         {(user === null || user == undefined || user.id == null) && (
           <>
             <button
-              className="navbar-button"
+              className={styles["navbar-button"]}
               onClick={() => navigate("/login-signup")}
             >
               Login/Signup
@@ -33,12 +33,12 @@ const Navbar = () => {
         {user != null && user.id != null && (
           <>
             <button
-              className="navbar-button"
+              className={styles["navbar-button"]}
               onClick={() => navigate("/new-api")}
             >
               +New API
             </button>
-            <button className="navbar-button" onClick={() => Logout()}>
+            <button className={styles["navbar-button"]} onClick={() => Logout()}>
               Logout
             </button>
           </>
