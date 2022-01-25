@@ -11,9 +11,9 @@ const app = express();
 
 // Middleware
 app.use(express.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+app.use(bodyParser.json({limit: '50mb'}));
 // app.use(upload.single());
-app.use(express.json());
+app.use(express.json({limit: '50mb'}));
 app.use(cors({credentials: true, origin: true, "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",}));
 app.use(cookieParser());
 // DB config

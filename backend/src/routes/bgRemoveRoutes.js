@@ -1,44 +1,64 @@
 const express = require('express');
 const router = express.Router();
-const multer = require('multer');
-const upload = multer();
+const { cloudinary } = require('../utils/cloudinary');
+// const multer = require('multer');
+// const upload = multer();
 const axios = require('axios');
 const FormData = require('form-data');
 const fs = require('fs');
+const { requireAuth } = require('../middlewares/auth');
 
-router.post('/remove-bg', upload.single('file'), async (req, res) => {
-  const file = req.file;
-  let base64 = Buffer.from(file.buffer).toString('base64');
-  //   console.log(base64.substring(base64.length - 10));
+router.post('/remove-bg', requireAuth, async (req, res) => {
+  const decodedUser = req.decoded;
+  const loggedIn = decodedUser.id !== null;
+  let fileName = req.body.fileName;
+  fileName = fileName.substr(0, fileName.indexOf("."));
+  const base64Image = req.body.image;
+  console.log(fileName);
+  // If the id is null, then the user is not logged in
+  // if (loggedIn) {
+    try {
+      const uploadedResponse = await cloudinary.uploader.upload(base64Image, {
+        public_id: fileName,
+        background_removal: "cloudinary_ai",
+        upload_preset: 'dev_setups',
+      });
+      console.log(uploadedResponse);
+      // res.json({msg: "SUCCESS"});
+    } catch (error) {
+      console.error(error);
+      // res.json({msg: "FAIL"})
+    }
+  // }
 
-  const formData = new FormData();
-  formData.append('size', 'full');
-  formData.append('image_file_b64', base64);
-  console.log(formData.size);
-  axios({
-    method: 'post',
-    url: 'https://api.remove.bg/v1.0/removebg',
-    data: formData,
-    responseType: 'arraybuffer',
-    headers: {
-      ...formData.getHeaders(),
-      'X-Api-Key': process.env.REMOVE_BG_API_KEY,
-    },
-    encoding: null,
-  })
-    .then((response) => {
-      if (response.status != 200)
-        return console.error('Error:', response.status, response.statusText);
-        // console.log(response.data);
-      // fs.writeFileSync('no-bg.png', response.data);
-    //   res.json({ success: true });
-    // res.download('./no-bg.png', (err)=>{
-    //     console.log(err);
-    // })
-    })
-    .catch((error) => {
-      return console.error('Request failed:', error);
-    });
+  // const formData = new FormData();
+  // formData.append('size', 'auto');
+  // formData.append('image_file_b64', base64Image);
+  // // console.log(formData.size);
+  // axios({
+  //   method: 'post',
+  //   url: 'https://api.remove.bg/v1.0/removebg',
+  //   data: formData,
+  //   responseType: 'arraybuffer',
+  //   headers: {
+  //     ...formData.getHeaders(),
+  //     'X-Api-Key': process.env.REMOVE_BG_API_KEY,
+  //   },
+  //   encoding: null,
+  // })
+  //   .then((response) => {
+  //     if (response.status != 200)
+  //       return console.error('Error:', response.status, response.statusText);
+  //     // console.log(response.data);
+  //     fs.writeFileSync(`${fileName}-bg-removed.png`, response.data);
+  //     res.json({ success: true });
+  //     // res.download(`${fileName}-bg-removed.png`, (err) => {
+  //     //   console.log(err);
+  //     // });
+  //   })
+  //   .catch((error) => {
+  //     return console.log(error);
+  //   });
 });
 
 module.exports = router;

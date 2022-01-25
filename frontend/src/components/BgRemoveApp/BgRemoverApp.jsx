@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import styles from  "./BgRemoverAppStyles.module.scss";
-import download from  'downloadjs';
+import styles from "./BgRemoverAppStyles.module.scss";
+import download from "downloadjs";
 
 const BgRemoverApp = () => {
   const [isActive, setIsActive] = useState(false);
@@ -82,7 +82,7 @@ const BgRemoverApp = () => {
     let res = validateFile(files[0]);
     if (res.result) {
       let link = await blobToData(files[0]);
-      console.log(`link length is ${link.substring(link.length - 5)}`);
+      // console.log(`link length is ${link}`);
       // let imgEl = `<img  src="${link}" />`;
 
       setSelectedFile({ file: files[0], link });
@@ -138,9 +138,9 @@ const BgRemoverApp = () => {
     // // scroll to element
     // element.scrollIntoView({ behavior: "smooth", block: "start" });
   };
-  const fileUpload = (e) =>{
+  const fileUpload = (e) => {
     console.log(e.target.files);
-  }
+  };
   const removeFile = (name) => {
     // const index = validFiles.findIndex((e) => e.file.name === name);
     // const index2 = selectedFiles.findIndex((e) => e.file.name === name);
@@ -153,16 +153,21 @@ const BgRemoverApp = () => {
   };
 
   const removeBG = async () => {
-    var formData = new FormData();
-    formData.append("file", selectedFile.file);
+    // var formData = new FormData();
+    // formData.append("file", selectedFile.file);
 
-    const res = await axios.post("/api/bg/remove-bg", formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
+    // const res = await axios.post("/api/bg/remove-bg", formData, {
+    //   headers: {
+    //     "Content-Type": "multipart/form-data",
+    //   },
+    // });
+    // console.log(sel);
+    const res = await axios.post("/api/bg/remove-bg", {
+      fileName: selectedFile.file.name,
+      image: selectedFile.link,
     });
-    let blob = res.data;
-    console.log(res);
+    // let blob = res.data;
+    // console.log(res);
     // download(blob, 'removed_bg');
     // console.log();
   };
@@ -196,7 +201,9 @@ const BgRemoverApp = () => {
         {/* <div className="upload-body" id="upload-area"> */}
         {selectedFile == null && (
           <div
-            className={`${styles["drag-area"]} ${isActive ? styles["active"] : ""}`}
+            className={`${styles["drag-area"]} ${
+              isActive ? styles["active"] : ""
+            }`}
             onDragOver={dragOver}
             onDragEnter={dragEnter}
             onDragLeave={dragLeave}
@@ -207,11 +214,21 @@ const BgRemoverApp = () => {
             </div>
             <header>Drag & Drop to Upload File</header>
             <span>OR</span>
-            <button onClick={()=>{
-              const imageInput = document.getElementById('image-input');
-              imageInput.click();
-            }}>Browse File</button>
-            <input onChange={(e) => fileUpload(e)} accept="image/*" type="file" id="image-input" hidden />
+            <button
+              onClick={() => {
+                const imageInput = document.getElementById("image-input");
+                imageInput.click();
+              }}
+            >
+              Browse File
+            </button>
+            <input
+              onChange={(e) => fileUpload(e)}
+              accept="image/*"
+              type="file"
+              id="image-input"
+              hidden
+            />
           </div>
         )}
         {/* </div> */}
@@ -233,14 +250,19 @@ const BgRemoverApp = () => {
                 >
                   <span>
                     <i
-                      className={"fa fa-window-close" + styles["delete-icon"]}
+                      className={
+                        styles["far"] + " " + styles["fa-times-circle"]
+                      }
                       aria-hidden="true"
                     ></i>
                   </span>
                 </p>
               </div>
             </div>
-            <button onClick={() => removeBG()} className={styles["remove-bg-btn"]}>
+            <button
+              onClick={() => removeBG()}
+              className={styles["remove-bg-btn"]}
+            >
               Remove bg
             </button>
           </div>
