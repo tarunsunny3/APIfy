@@ -136,7 +136,7 @@ router.post(
         payload,
         process.env.JWT_SECRET,
         {
-          expiresIn: 3600,
+          expiresIn: '2 days',
         },
         (err, token) => {
           if (err) throw err;

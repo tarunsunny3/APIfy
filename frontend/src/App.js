@@ -38,7 +38,7 @@ function App() {
   return (
     <Router>
       <userContext.Provider value={userDetails}>
-        <Navbar />
+        <Navbar/>
         <Routes>
           <Route path="/" element={<Dashboard />} />
           <Route path="/login-signup" element={<LoginSignup />} />

@@ -118,22 +118,25 @@
 }
 .image-container {
   position: relative;
-  color: white;
+  // color: white;
   // background: #000;
   // .img-container {
   //   width: 100%;
   //   height: 100%;
   // }
-  .img-container .far,
-  .fa-times-circle {
+  .window-close {
     color: black;
-    padding: 10%;
+    padding: 0.3em;
     position: absolute;
     top: 0;
     right: 0;
     cursor: pointer;
     background: white;
+    border: 2px solid red;
+    border-radius: 20%;
+    z-index: 100;
   }
+
   .uploaded-image {
     border-radius: 5%;
     max-width: 300px;

@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import styles from "./BgRemoverAppStyles.module.scss";
+import "../../styles/globalStyles.scss";
 import download from "downloadjs";
 
 const BgRemoverApp = () => {
   const [isActive, setIsActive] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [validFiles, setValidFiles] = useState([]);
   const [unsupportedFiles, setUnsupportedFiles] = useState([]);
+  const [bgRemovedReady, setBgRemovedReady] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -60,6 +63,33 @@ const BgRemoverApp = () => {
     preventDefault(e);
     setIsActive(false);
   };
+  const fileSize = (size) => {
+    if (size === 0) {
+      return "0 Bytes";
+    }
+    const k = 1024;
+    const sizes = ["Bytes", "KB", "MB", "GB", "TB"];
+    const i = Math.floor(Math.log(size) / Math.log(k));
+    return parseFloat((size / Math.pow(k, i)).toFixed(2)) + " " + sizes[i];
+  };
+
+  const fileType = (fileName) => {
+    return (
+      fileName.substring(fileName.lastIndexOf(".") + 1, fileName.length) ||
+      fileName
+    );
+  };
+
+  const fileDrop = (e) => {
+    setIsActive(false);
+    setErrorMessage("");
+    preventDefault(e);
+    const files = e.dataTransfer.files;
+    if (files.length) {
+      handleFiles(files);
+    }
+  };
+
   const validateFile = (file) => {
     const validTypes = [
       "image/jpeg",
@@ -87,57 +117,12 @@ const BgRemoverApp = () => {
 
       setSelectedFile({ file: files[0], link });
       let area = document.querySelector("#uploaded-img");
-      // area.style.width = "100px";
-      // area.style.height = "500px";
-      // area.style.display = "block";
-      // area.style.display = "inline-block";
-      // area.style.position = "relative";
       area.setAttribute("src", link);
-
-      // document.getElementById("upload-area").style.height = "50%";
-      // document.getElementById("upload-area").style.width = "100%";
-      // document.getElementById("uploaded-img").setAttribute("src", link);
     } else {
-      // files[i]["invalid"] = true;
-      // setSelectedFiles((prevArray) => [...prevArray, files[i]]);
-
       setErrorMessage(`(${files[0].name}) ${res.message}`);
-      // document.getElementById("alert").scrollIntoView();
-
-      // setUnsupportedFiles((prevArray) => [...prevArray, files[i]]);
     }
-    // }
-  };
-  const fileSize = (size) => {
-    if (size === 0) {
-      return "0 Bytes";
-    }
-    const k = 1024;
-    const sizes = ["Bytes", "KB", "MB", "GB", "TB"];
-    const i = Math.floor(Math.log(size) / Math.log(k));
-    return parseFloat((size / Math.pow(k, i)).toFixed(2)) + " " + sizes[i];
   };
 
-  const fileType = (fileName) => {
-    return (
-      fileName.substring(fileName.lastIndexOf(".") + 1, fileName.length) ||
-      fileName
-    );
-  };
-
-  const fileDrop = (e) => {
-    setIsActive(false);
-    setErrorMessage("");
-    preventDefault(e);
-    const files = e.dataTransfer.files;
-    if (files.length) {
-      handleFiles(files);
-    }
-    // var element = document.querySelector("#file-container:last-child");
-
-    // // scroll to element
-    // element.scrollIntoView({ behavior: "smooth", block: "start" });
-  };
   const fileUpload = (e) => {
     console.log(e.target.files);
   };
@@ -149,27 +134,32 @@ const BgRemoverApp = () => {
     // selectedFiles.splice(index2, 1);
     // setValidFiles([...validFiles]);
     // setSelectedFiles([...selectedFiles]);
+    setBgRemovedReady(false);
     setSelectedFile(null);
   };
 
   const removeBG = async () => {
-    // var formData = new FormData();
-    // formData.append("file", selectedFile.file);
-
-    // const res = await axios.post("/api/bg/remove-bg", formData, {
-    //   headers: {
-    //     "Content-Type": "multipart/form-data",
-    //   },
-    // });
-    // console.log(sel);
+    if (bgRemovedReady) {
+      download(selectedFile.link, "removed_bg.png");
+      return;
+    }
+    setLoading(true);
     const res = await axios.post("/api/bg/remove-bg", {
       fileName: selectedFile.file.name,
       image: selectedFile.link,
     });
-    // let blob = res.data;
-    // console.log(res);
-    // download(blob, 'removed_bg');
-    // console.log();
+    setLoading(false);
+    if (res.data.success) {
+      let blob = res.data.image;
+      blob = `data:image/jpeg;base64,${blob}`;
+      let area = document.querySelector("#uploaded-img");
+      setSelectedFile({ file: selectedFile.file, link: blob });
+      area.setAttribute("src", blob);
+      setBgRemovedReady(true);
+    } else {
+      setErrorMessage(res.data.message);
+      setSelectedFile(null);
+    }
   };
   return (
     <div className={styles["bg-container"]}>
@@ -191,7 +181,7 @@ const BgRemoverApp = () => {
             <span>
               <i
                 onClick={() => setErrorMessage("")}
-                className={"fa fa-times-circle" + styles["close-icon"]}
+                className={"fa fa-times-circle " + styles["close-icon"]}
                 aria-hidden="true"
               ></i>
             </span>
@@ -234,38 +224,48 @@ const BgRemoverApp = () => {
         {/* </div> */}
 
         {selectedFile != null && (
-          <div className={styles["upload-body"]}>
-            <div className={styles["image-container"]}>
-              <div className={styles["img-container"]}>
-                <img
-                  src="#"
-                  alt="Uploaded image"
-                  id="uploaded-img"
-                  className={styles["uploaded-image"]}
-                />
-                <p
-                  onClick={() => {
-                    removeFile(selectedFile.name);
-                  }}
-                >
-                  <span>
-                    <i
-                      className={
-                        styles["far"] + " " + styles["fa-times-circle"]
-                      }
-                      aria-hidden="true"
-                    ></i>
-                  </span>
-                </p>
+          <>
+            {loading == true ? (
+              <div className="loader-container">
+                <div className="loading-message">
+                  Hang on ... Serving you request!!
+                </div>
+                <div className="loader"></div>
               </div>
-            </div>
-            <button
-              onClick={() => removeBG()}
-              className={styles["remove-bg-btn"]}
-            >
-              Remove bg
-            </button>
-          </div>
+            ) : (
+              <div className={styles["upload-body"]}>
+                <div className={styles["image-container"]}>
+                  <div className={styles["img-container"]}>
+                    <img
+                      src="#"
+                      alt="Uploaded image"
+                      id="uploaded-img"
+                      className={styles["uploaded-image"]}
+                    />
+                    <p
+                      onClick={() => {
+                        removeFile(selectedFile.name);
+                      }}
+                    >
+                      <span>
+                        <i
+                          className={
+                            "fas fa-window-close " + styles["window-close"]
+                          }
+                        ></i>
+                      </span>
+                    </p>
+                  </div>
+                </div>
+                <button
+                  onClick={() => removeBG()}
+                  className={styles["remove-bg-btn"]}
+                >
+                  {bgRemovedReady ? "Download" : "Remove bg"}
+                </button>
+              </div>
+            )}
+          </>
         )}
         {/*             
             <button
