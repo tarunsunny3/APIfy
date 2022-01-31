@@ -1,10 +1,12 @@
-import React from "react";
+import React, {useContext, useEffect, useState} from "react";
 import axios from "axios";
 import { NavLink, useNavigate } from "react-router-dom/";
 import { userContext } from "../../userContext";
 import styles from "./NavbarStyles.module.scss";
+import NewAPI from "./NewAPI/NewAPI";
 const Navbar = () => {
-  const { user, setUser, setLoggedIn } = React.useContext(userContext);
+  const { user, setUser, setLoggedIn } = useContext(userContext);
+  const [showAPIModal, setShowAPIModal] = useState(false);
   const navigate = useNavigate();
   const Logout = async () => {
     const d = await axios.get("/api/auth/logout");
@@ -13,9 +15,22 @@ const Navbar = () => {
     setLoggedIn(false);
     navigate("/login-signup");
   };
-
+  const clickOutside = (e) =>{
+    const modal = document.getElementById('new-api-modal');
+    if(e.target == modal){
+      setShowAPIModal(false);
+    }
+  }
+  useEffect(() => {
+   window.addEventListener('click', clickOutside);
+  }, []);
+  
   return (
     <div className={styles.navbar}>
+      {
+        showAPIModal && 
+        <NewAPI showAPIModal={showAPIModal} setShowAPIModal={setShowAPIModal} />
+      }
       <p onClick={() => navigate("/")} className={styles.title}>
         APIfy
       </p>
@@ -34,7 +49,7 @@ const Navbar = () => {
           <>
             <button
               className={styles["navbar-button"]}
-              onClick={() => navigate("/new-api")}
+              onClick={() => setShowAPIModal(true)}
             >
               +New API
             </button>

@@ -213,11 +213,12 @@ const BgRemoverApp = () => {
               Browse File
             </button>
             <input
+              hidden={true}
               onChange={(e) => fileUpload(e)}
               accept="image/*"
               type="file"
+              className={styles["img-input"]}
               id="image-input"
-              hidden
             />
           </div>
         )}
