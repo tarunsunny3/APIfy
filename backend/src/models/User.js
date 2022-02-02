@@ -9,11 +9,11 @@ const UserSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  createdAt: {
-    type: Date,
-    default: Date.now(),
-  },
-});
+  apis: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Api"
+  }]
+},{timestamps: true});
 
 // export model user with UserSchema
 module.exports = mongoose.model('user', UserSchema);

@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./NewAPI.module.scss";
 
 //Input textbox styles are imported from this login styles component
-import loginStyles from "../../../pages/LoginSignup/LoginSignupStyles.module.scss";
+// import loginStyles from "../../../pages/LoginSignup/LoginSignupStyles.module.scss";
 const NewAPI = ({ showAPIModal, setShowAPIModal }) => {
   return (
     <div className={styles["modal-box"]}>

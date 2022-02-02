@@ -8,6 +8,7 @@ import LoginSignup from "./pages/LoginSignup/LoginSignup";
 import { userContext } from "./userContext";
 import ProtectedRoute from "./utils/ProtectedRoute";
 import BgRemoverApp from "./components/BgRemoveApp/BgRemoverApp";
+import UserDashboard from "./pages/UserDashboard/UserDashboard";
 
 function NewApi() {
   return <p>This is new API page</p>;
@@ -43,9 +44,14 @@ function App() {
           <Route path="/" element={<Dashboard />} />
           <Route path="/login-signup" element={<LoginSignup />} />
           <Route
+            path="/user-dashboard"
+            element={<ProtectedRoute component={UserDashboard} />}
+          />
+          <Route
             path="/new-api"
             element={<ProtectedRoute component={NewApi} />}
           />
+
           <Route path="/bg-remover-app" element={<BgRemoverApp />} />
         </Routes>
       </userContext.Provider>

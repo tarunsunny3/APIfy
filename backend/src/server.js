@@ -7,14 +7,21 @@ const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const authRouter = require('./routes/authRoutes');
 const bgRouter = require('./routes/bgRemoveRoutes');
+const apiRouter = require('./routes/apiRoutes');
 const app = express();
 
 // Middleware
 app.use(express.urlencoded({ extended: true }));
-app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.json({ limit: '50mb' }));
 // app.use(upload.single());
-app.use(express.json({limit: '50mb'}));
-app.use(cors({credentials: true, origin: true, "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",}));
+app.use(express.json({ limit: '50mb' }));
+app.use(
+  cors({
+    credentials: true,
+    origin: true,
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  }),
+);
 app.use(cookieParser());
 // DB config
 
@@ -45,7 +52,14 @@ app.use('/api/auth', authRouter);
  * Router - /api/bg/*
  * Method - *
  */
- app.use('/api/bg', bgRouter);
+app.use('/api/bg', bgRouter);
+
+/**
+ * Router Middleware
+ * Router - /api/userAPIs/*
+ * Method - *
+ */
+app.use('/api/userAPIs', apiRouter);
 
 const port = process.env.PORT || 8080;
 app.listen(port, () => {

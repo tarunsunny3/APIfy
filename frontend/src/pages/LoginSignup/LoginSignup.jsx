@@ -64,7 +64,7 @@ const LoginSignup = () => {
         if (isLogin) {
           setUser({ id: "1" });
           setLoggedIn(true);
-          navigate("/new-api", { replace: true });
+          navigate("/user-dashboard", { replace: true });
         } else {
           setErrors([]);
           setIsLogin(!isLogin);

@@ -4,6 +4,7 @@ import { NavLink, useNavigate } from "react-router-dom/";
 import { userContext } from "../../userContext";
 import styles from "./NavbarStyles.module.scss";
 import NewAPI from "./NewAPI/NewAPI";
+
 const Navbar = () => {
   const { user, setUser, setLoggedIn } = useContext(userContext);
   const [showAPIModal, setShowAPIModal] = useState(false);
