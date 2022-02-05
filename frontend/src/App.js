@@ -2,13 +2,14 @@ import "./App.scss";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Dashboard from "./components/Dashboard/Dashboard";
 import Navbar from "./components/Navbar/Navbar";
 import LoginSignup from "./pages/LoginSignup/LoginSignup";
 import { userContext } from "./userContext";
 import ProtectedRoute from "./utils/ProtectedRoute";
 import BgRemoverApp from "./components/BgRemoveApp/BgRemoverApp";
 import UserDashboard from "./pages/UserDashboard/UserDashboard";
+import Dashboard from "./pages/Dashboard/Dashboard";
+import NewAPI from "./components/Navbar/NewAPI/NewAPI";
 
 function NewApi() {
   return <p>This is new API page</p>;
@@ -49,7 +50,7 @@ function App() {
           />
           <Route
             path="/new-api"
-            element={<ProtectedRoute component={NewApi} />}
+            element={<ProtectedRoute component={NewAPI} />}
           />
 
           <Route path="/bg-remover-app" element={<BgRemoverApp />} />

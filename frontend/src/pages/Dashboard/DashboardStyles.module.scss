@@ -1,25 +1,15 @@
 // $color: blue;
 $leftSpace: 5%;
-// .container {
-//   width: 100%;
-//   height: 20%;
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   color: $color;
-//   background-color: aqua;
-// }
-.body {
-  display: flex;
-  // flex-direction: column;
-  // padding: 30px;
+.container {
+  margin-top: 2rem;
 }
 
 .side-heading {
-  position: absolute;
-  left: $leftSpace;
-  top: 349px;
-  color: blueviolet;
+  margin-left: 2%;
+  // position: absolute;
+  // left: $leftSpace;
+  // top: 349px;
+  // color: blueviolet;
 }
 .banner {
   position: absolute;
@@ -87,14 +77,14 @@ $leftSpace: 5%;
   transform: rotate(-180deg);
 }
 .apis {
-  position: absolute;
-  top: 450px;
-  left: $leftSpace;
+  // position: absolute;
+  // top: 450px;
+  // left: $leftSpace;
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-around;
   flex-wrap: wrap;
-  align-items: center;
-  width: 90%;
+  // align-items: center;
+  // width: 90%;
   margin-bottom: 2%;
 }
 

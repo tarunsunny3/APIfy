@@ -5,20 +5,34 @@ const apis = {
   getAllAPIs: function (req, res) {
     Api.find({})
       .then((data) => {
-        res.send(data);
+        res.send({ apis: data });
       })
       .catch((err) => {
         res.status(500).send({
-          message: err.message || 'Error occurred while retrieving APIs.',
+          message: 'Error occurred while retrieving APIs.',
+        });
+      });
+  },
+
+  //GET API by it's id
+
+  getAPIByID: function (req, res) {
+    let id = req.params.id;
+    Api.findById(id)
+      .then((data) => {
+        res.send({ api: data });
+      })
+      .catch((err) => {
+        res.status(500).send({
+          message: 'Error occured while retrieving API',
         });
       });
   },
   // GET APIs of a particular user
   getAPIsByUserID: async function (req, res) {
     const userId = req.params.id;
-
     try {
-      const populatedUser = await User.findOne({ id: userId }).populate({
+      const populatedUser = await User.findOne({ _id: userId }).populate({
         path: 'apis',
       });
       // console.log(populatedUser['apis']);
@@ -40,25 +54,30 @@ const apis = {
   },
   // POST add new API
   addAPI: function (req, res) {
-    const userId = '61e83a571cde6f37ffb06e98';
-    if (!req.body.name) {
+    console.log(req.body);
+    const userID = req.body.id;
+    console.log(userID);
+    if (!req.body.id) {
       res.status(400).send({
-        message: 'API name can not be empty!',
+        message: 'User ID cannot be empty!',
       });
       return;
     }
     const api = new Api({
       name: req.body.name,
+      endpoints: req.body.endpoints,
       description: req.body.description,
-      imageUrl: req.body.imageUrl
+      imageUrl: req.body.imageUrl,
+      userID,
     });
     api
       .save()
       .then(async (data) => {
-        const user = await User.findById(userId);
+        const user = await User.findById(userID);
         if (!user) {
           res.status(500).send({
-            message: err.message || 'Error occurred while creating the API.',
+            success: false,
+            message: 'Error occurred while creating the API.',
           });
         } else {
           try {
@@ -78,7 +97,8 @@ const apis = {
       })
       .catch((err) => {
         res.status(500).send({
-          message: err.message || 'Error occurred while creating the API.',
+          success: false,
+          message: 'Error occurred while creating the API.',
         });
       });
   },
@@ -110,26 +130,49 @@ const apis = {
       });
   },
   // DELETE delete API by id
-  deletAPI: function (req, res) {
+  deleteAPI: async function (req, res) {
     const id = req.params.id;
-    Api.deleteOne({
-      _id: id,
-    })
-      .then((data) => {
-        if (!data) {
-          res.status(404).send({
-            message: `Failed to delete API with id=${id}.`,
-          });
-        } else
-          res.send({
-            message: 'API was deleted successfully.',
-          });
-      })
-      .catch((err) => {
-        res.status(500).send({
-          message: 'Error occured while deleting API with id=' + id,
-        });
+    const deletedAPI = await Api.findByIdAndDelete(id, { rawResult: true });
+    if (!deletedAPI) {
+      res.status(404).send({
+        message: 'API with the given ID is not found.',
       });
+    }
+    // Now remove also remove this API id from the User's APIs list
+    try {
+      let userID = deletedAPI.value.userID;
+      let user = await User.findById(userID);
+      user.apis.splice(user.apis.indexOf(id), 1);
+      await user.save();
+      res.send({
+        message: 'API was deleted successfully.',
+      });
+    } catch (error) {
+      res.status(500).send({
+        message: 'Error deleting the API',
+      });
+    }
+
+    // Api.deleteOne({
+    //   _id: id,
+    // })
+    //   .then((data) => {
+    //     console.log(data);
+    //     if (data.deletedCount == 0) {
+    //       res.status(404).send({
+    //         message: `Failed to delete API with id=${id}.`,
+    //       });
+    //     } else {
+    //       res.send({
+    //         message: 'API was deleted successfully.',
+    //       });
+    //     }
+    //   })
+    //   .catch((err) => {
+    //     res.status(500).send({
+    //       message: 'Error occured while deleting API with id=' + id,
+    //     });
+    //   });
   },
   // DELETE remove all APIs
   deleteAllAPIs: function (req, res) {

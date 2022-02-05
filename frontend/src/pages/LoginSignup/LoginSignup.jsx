@@ -39,7 +39,7 @@ const LoginSignup = () => {
   const [isLogin, setIsLogin] = useState(true);
 
   //Usercontext
-  const { setLoggedIn, setUser } = React.useContext(userContext);
+  const { setLoggedIn, setUser, loggedIn } = React.useContext(userContext);
 
   const [message, setMessage] = useState({ msgType: "error", msg: "" });
   const [errors, setErrors] = useState([]);
@@ -48,6 +48,7 @@ const LoginSignup = () => {
   const navigate = useNavigate();
   const handleSubmit = async (values, isLogin) => {
     try {
+      console.log(values);
       setLoading(true);
       const res = await axios.post(
         `/api/auth/${isLogin ? "login" : "signup"}`,
@@ -63,11 +64,11 @@ const LoginSignup = () => {
       if (res.data.success) {
         if (isLogin) {
           setUser({ id: "1" });
-          setLoggedIn(true);
+          setLoggedIn(!loggedIn);
           navigate("/user-dashboard", { replace: true });
         } else {
           setErrors([]);
-          setIsLogin(!isLogin);
+          setIsLogin(!loggedIn);
           setMessage({
             msgType: "success",
             msg: "Thank you for signing up, please login",
@@ -110,7 +111,9 @@ const LoginSignup = () => {
           {isLogin ? (
             <p className={styles["content-title"]}>Welcome to your dashboard</p>
           ) : (
-            <p className={styles["content-title"]}>Welcome to our APIfy market place</p>
+            <p className={styles["content-title"]}>
+              Welcome to our APIfy market place
+            </p>
           )}
 
           {isLogin ? (
@@ -137,7 +140,13 @@ const LoginSignup = () => {
               );
             })}
           {message.msg.length !== 0 && (
-            <p className={message.msgType == styles["error"] ? styles["error"] : styles["success"]}>
+            <p
+              className={
+                message.msgType == styles["error"]
+                  ? styles["error"]
+                  : styles["success"]
+              }
+            >
               {message.msg}
             </p>
           )}

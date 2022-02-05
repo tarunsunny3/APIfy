@@ -1,13 +1,16 @@
 const mongoose = require('mongoose');
 
-const ApiSchema = mongoose.Schema({
+const ApiSchema = mongoose.Schema(
+  {
     name: String,
-    description: [{endpoint: String, desc: String}],
-    imageUrl: String
-},
-{
-    timestamps: true
-}
+    description: String,
+    endpoints: [{ endpoint: String, description: String }],
+    imageUrl: String,
+    userID: mongoose.Types.ObjectId
+  },
+  {
+    timestamps: true,
+  },
 );
 
 // export model API with ApiSchema

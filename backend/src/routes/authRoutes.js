@@ -168,7 +168,7 @@ router.post(
  */
 router.get('/logout', requireAuth, (req, res)=>{
   try{
-  res.cookie("token", "", { maxAge: -1})
+    res.cookie("token", "", { maxAge: -1})
     res.sendStatus(200);
   }catch(e){
     res.sendStatus(400).json({success: false});
@@ -181,13 +181,14 @@ router.get('/logout', requireAuth, (req, res)=>{
  * @param - /api/auth/decodedUser
  */
 router.get('/decodedUser', requireAuth, async (req, res) => {
-  const user = req.decoded;
-  if (user.id === null) {
+  const userData = req.decoded;
+  // console.log(userData);
+  if (userData.id === null) {
     res.json({ user: req.decoded });
   } else {
     try {
-      const userDetails = await User.findOne({ id: user.id });
-      res.json({ user: {id: userDetails.id, ...userDetails}, success: true });
+      const userDetails = await User.findById( userData.user.id );
+      res.json({ user: {id: userDetails._id, ...userDetails}, success: true });
     } catch (error) {
       res.json({ success: false });
     }
