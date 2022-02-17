@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import axios from "axios";
-import styles from "./NewAPI.module.scss";
+import styles from "./NewAPIStyles.module.scss";
 import { userContext } from "../../../userContext";
 import Alert from "../../../utils/Alert/Alert";
 
@@ -17,6 +17,7 @@ const NewAPI = ({ updateData, setShowModal }) => {
       setApiName(api.name);
       setDescription(api.description);
       setEndpointFields(api.endpoints);
+      setUpdate(true);
     } catch (error) {
       console.log(error.response.data);
     }
@@ -29,10 +30,11 @@ const NewAPI = ({ updateData, setShowModal }) => {
   }, []);
 
   const userData = useContext(userContext);
+  const [update, setUpdate] = useState(false);
   const [apiName, setApiName] = useState("");
   const [description, setDescription] = useState("");
   const [endpointFields, setEndpointFields] = useState([
-    { endpoint: "", description: "" },
+    { endpoint: "", description: "", methodType: "N/A" },
   ]);
   const [imageUrl, setImageUrl] = useState("");
   const [message, setMessage] = useState({
@@ -48,7 +50,7 @@ const NewAPI = ({ updateData, setShowModal }) => {
   };
 
   let addFormFields = () => {
-    setEndpointFields([...endpointFields, { endpoint: "", description: "" }]);
+    setEndpointFields([...endpointFields, { endpoint: "", description: "", methodType: "N/A" }]);
   };
 
   let removeFormFields = (i) => {
@@ -71,6 +73,10 @@ const NewAPI = ({ updateData, setShowModal }) => {
         success: true,
         message: "Successfully, added the API",
       });
+
+      setTimeout(() => {
+        history.go(0);
+      }, 1000);
     } catch (error) {
       setMessage({
         display: true,
@@ -95,6 +101,9 @@ const NewAPI = ({ updateData, setShowModal }) => {
         success: true,
         message: "Successfully, updated the API",
       });
+      setTimeout(() => {
+        history.go(0);
+      }, 1000);
     } catch (error) {
       setMessage({
         display: true,
@@ -112,9 +121,22 @@ const NewAPI = ({ updateData, setShowModal }) => {
       addAPI();
     }
   };
+  const handleBadgeClick = (e, index) => {
+    let newEndPointFields = [...endpointFields];
+    newEndPointFields[index][e.target.getAttribute("name")] = e.target.innerText;
+    setEndpointFields(newEndPointFields);
+    const badges = document.querySelectorAll(`.badge-key-${index}`);
+    for(let i = 0; i < badges.length; i++){
+      if(badges[i] != e.target){
+        badges[i].classList.add(styles['badge-disabled']);
+      }else{
+        badges[i].classList.remove(styles["badge-disabled"]);
+      }
+    }
+  };
   return (
     <div className={styles["modal-box"]}>
-      {updateData && updateData.isUpdate && apiName.length < 1 && (
+      {updateData && updateData.isUpdate && !update && (
         <div id="preloader"></div>
       )}
       <div id="new-api-modal" className={styles["modal"]}>
@@ -135,7 +157,7 @@ const NewAPI = ({ updateData, setShowModal }) => {
             >
               &times;
             </span>
-            <h4>
+            <h4 className={styles["heading"]}>
               {updateData && updateData.isUpdate ? "Update API" : "Add new API"}
             </h4>
 
@@ -175,6 +197,39 @@ const NewAPI = ({ updateData, setShowModal }) => {
                   placeholder="API End point"
                 />
 
+                <br />
+
+                <div className={styles["badges"]}>
+                  <p>API Type: </p>
+                  <div
+                    name="methodType"
+                    onClick={(e) => handleBadgeClick(e, index)}
+                    className={styles["badge"] + " " + styles["get"] + ' badge-key-' + index}
+                  >
+                    GET
+                  </div>
+                  <div
+                    name="methodType"
+                    onClick={(e) => handleBadgeClick(e, index)}
+                    className={styles["badge"] + " " + styles["post"]  + ' badge-key-' + index}
+                  >
+                    POST
+                  </div>
+                  <div
+                    name="methodType"
+                    onClick={(e) => handleBadgeClick(e, index)}
+                    className={styles["badge"] + " " + styles["put"] +  ' badge-key-' + index}
+                  >
+                    PUT
+                  </div>
+                  <div
+                    name="methodType"
+                    onClick={(e) => handleBadgeClick(e, index)}
+                    className={styles["badge"] + " " + styles["delete"] + ' badge-key-' + index}
+                  >
+                    DELETE
+                  </div>
+                </div>
                 <br />
                 <textarea
                   type="text"

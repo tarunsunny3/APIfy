@@ -3,7 +3,6 @@ import styles from "./AlertStyles.module.scss";
 const Alert = ({ display, success, message, setMessage }) => {
  
   if (!display) {
-    console.log("Yeahh");
     return null;
   }
   return (

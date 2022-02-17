@@ -1,4 +1,4 @@
-$padding: 3% 5%;
+$padding: 1% 5%;
 
 .api-card {
   border: 1px solid #b5bfca;
@@ -10,7 +10,6 @@ $padding: 3% 5%;
   //   margin-bottom: 2%;
   img {
     width: 100%;
-    // object-fit: contain;
     // height: 200px;
   }
 }
@@ -35,7 +34,26 @@ $padding: 3% 5%;
   float: right;
   color: rgb(10, 10, 153);
 }
-
+.btn-div {
+  display: flex;
+  justify-content: flex-end;
+  // float: bottom;
+  // float: right;
+  margin: 1rem;
+  margin-bottom: 0.2rem;
+}
+.more-button {
+  cursor: pointer;
+  padding: 1em;
+  color: white;
+  background-color: rgb(30, 30, 117);
+  border: none;
+  border-radius: 1rem;
+  transition: 0.5s;
+}
+.more-button:hover {
+  background-color: rgb(73, 73, 163);
+}
 @media (max-width: 480px) {
   .api-card {
     flex-basis: 80%;
@@ -68,7 +86,9 @@ $padding: 3% 5%;
 @media (min-width: 1025px) and (max-width: 1280px) {
   .api-card {
     // width: 100%;
-    flex-basis: 25%;
+    flex-basis: 20%;
     margin: 0.5rem;
+    margin-bottom: 1.5rem;
   }
 }
+

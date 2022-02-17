@@ -4,8 +4,9 @@ const ApiSchema = mongoose.Schema(
   {
     name: String,
     description: String,
-    endpoints: [{ endpoint: String, description: String }],
+    endpoints: [{ endpoint: String, description: String, methodType: String }],
     imageUrl: String,
+
     userID: mongoose.Types.ObjectId
   },
   {

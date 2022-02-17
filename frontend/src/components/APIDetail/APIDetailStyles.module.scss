@@ -1,3 +1,7 @@
+// GET - #398AB9, POST - #95CD41, PUT - #FBD148, DELETE - #FF2626
+.api-title{
+  text-align: center;
+}
 .modal-box {
   text-align: center;
 }
@@ -41,11 +45,32 @@
   // animation-name: modalopen;
   // animation-duration: 0.5s;
 }
-// @keyframes modalopen {
-//   from {
-//     opacity: 0;
-//   }
-//   to {
-//     opacity: 1;
-//   }
-// }
+
+@media (max-width: 480px) {
+  .modal-content {
+    width: 90%;
+  }
+}
+
+/* Media Query for low resolution  Tablets, Ipads */
+@media (min-width: 481px) and (max-width: 767px) {
+  .modal-content{
+    width: 80%;
+  }
+}
+
+/* Media Query for Tablets Ipads portrait mode */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .modal-content{
+    width: 70%;
+  }
+}
+
+/* Media Query for Laptops and Desktops */
+@media (min-width: 1025px) and (max-width: 1280px) {
+  .modal-content{
+    width: 60%;
+  }
+}
+
+

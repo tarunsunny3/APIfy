@@ -18,6 +18,17 @@ $padding: 3% 5%;
 .api-desc {
   padding: $padding;
 }
+.more-button{
+  color: white;
+  background-color: rgb(233, 95, 233);
+  padding: 0.5em;
+  cursor: pointer;
+  float: right;
+  margin-right: 1rem;
+  margin-bottom: 1rem;
+  border: 0;
+  border-radius: 1em;
+}
 
 @media (max-width: 480px) {
   .api-card {

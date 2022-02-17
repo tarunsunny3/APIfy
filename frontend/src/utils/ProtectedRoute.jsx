@@ -6,7 +6,6 @@ import "../styles/globalStyles.scss";
 const ProtectedRoute = ({ component: Component, ...rest }) => {
   const { user } = React.useContext(userContext);
   //This means the App.js is still setting the cookie value into the user
-  console.log("Protected route");
   if (user.id === "1" || user.id === undefined) {
     return <div className="page-loader"></div>;
   }

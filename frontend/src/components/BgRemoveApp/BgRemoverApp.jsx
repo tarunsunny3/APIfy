@@ -124,7 +124,10 @@ const BgRemoverApp = () => {
   };
 
   const fileUpload = (e) => {
-    console.log(e.target.files);
+    const files = e.target.files;
+    if (files.length) {
+      handleFiles(files);
+    }
   };
   const removeFile = (name) => {
     // const index = validFiles.findIndex((e) => e.file.name === name);

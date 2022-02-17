@@ -6,7 +6,7 @@
 .apis {
   margin-top: 2%;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-evenly;
   flex-wrap: wrap;
   // align-items: center;
   // width: 90%;
@@ -14,4 +14,9 @@
   //   flex-wrap: wrap;
   // flex: 1 0 50%;
   //   flex-basis: 100%;
+}
+.pagination{
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 2%;
 }

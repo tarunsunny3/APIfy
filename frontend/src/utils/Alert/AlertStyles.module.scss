@@ -7,17 +7,19 @@
 .message-body {
   padding: 1em 1em;
   border-radius: 0.5rem;
+  border-top-right-radius: 0;
 }
 .error {
   background-color: rgb(236, 49, 49);
   color: white;
 }
 .success {
-  background-color: rgb(41, 230, 41);
+  background-color: #77d970;
   color: black;
 }
 .close-icon {
   cursor: pointer;
   float: right;
-  border-top-right-radius: 0.5rem;
+  margin-top: -2px;
+  color: red;
 }

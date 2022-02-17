@@ -33,24 +33,44 @@ const Dashboard = () => {
             </NavLink>
           </div>
         </div> */}
+        <div className={styles["banner"]}>
+          <img className={styles["img"]} src="/bg.jfif" alt="Preview" />
+          <div className={styles["semi-circle"]}></div>
+          <div className={styles["text-box"]}>
+            <div className="text">
+              <p className={styles["title"]}>Background Image Remover</p>
+              <p className={styles["subtitle"]}>100% automatic and free</p>
+            </div>
+            <div className={styles["button"]}>
+              <NavLink to="/bg-remover-app" className={styles["btn"]}>
+                View app
+              </NavLink>
+            </div>
+           
+          </div>
+        </div>
         <h1 className={styles["side-heading"]}>Mini APP APIs</h1>
         <div className={styles["apis"]}>
           <HomePageAPICard
+            miniApp={true}
             apiTitle="Background Remover"
             apiDescription="Now remove your background so easily and without any hassles"
             apiImage="/bg.jfif"
           />
           <HomePageAPICard
+            miniApp={true}
             apiTitle="What Font?"
             apiDescription="Easily choose whatever font your app needs, that would be so cool"
             apiImage="/font.png"
           />
           <HomePageAPICard
+            miniApp={true}
             apiTitle="HTTPS Everywhere"
             apiDescription="Shift to HTTPS and surf securely with that extra s at the end"
             apiImage="/https.png"
           />
           <HomePageAPICard
+            miniApp={true}
             apiTitle="Stay Focused"
             apiDescription="Stay focused, by blocking unnecessary websites which disturb you"
             apiImage="/stayfocus.png"
@@ -60,7 +80,7 @@ const Dashboard = () => {
         <div className={styles["apis"]}>
           {
             apis.map((api, index) => (
-              <HomePageAPICard key={index} apiTitle={api.name} apiDescription={api.description} apiImage={api.imageUrl || "/api_logo.png"}  />
+              <HomePageAPICard key={index} api={api}/>
             ))
           }
         </div>
