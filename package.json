@@ -11,7 +11,7 @@
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm run install-client && npm run build",
     "lint": "npx eslint src/"
   },
-  "author": "",
+  "author": "Tarun",
   "license": "ISC",
   "dependencies": {
     "axios": "^0.25.0",
