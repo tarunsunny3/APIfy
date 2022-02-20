@@ -14,8 +14,8 @@
   "author": "Tarun",
   "license": "ISC",
   "dependencies": {
-    "axios": "^0.25.0",
     "bcryptjs": "^2.4.3",
+    "axios": "^0.25.0",
     "body-parser": "^1.19.1",
     "cloudinary": "^1.28.1",
     "cookie-parser": "^1.4.6",
