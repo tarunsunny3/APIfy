@@ -200,7 +200,7 @@ const NewAPI = ({ updateData, setShowModal }) => {
                 <br />
 
                 <div className={styles["badges"]}>
-                  <p>API Type: </p>
+                  <p className={styles["api-type"]}>API Type: </p>
                   <div
                     name="methodType"
                     onClick={(e) => handleBadgeClick(e, index)}

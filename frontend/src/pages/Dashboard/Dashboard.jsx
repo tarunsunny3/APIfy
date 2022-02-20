@@ -2,8 +2,11 @@ import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import HomePageAPICard from "../../components/HomePageAPICard/HomePageAPICard";
+import Pagination from "../../utils/Pagination/Pagination";
 import styles from "./DashboardStyles.module.scss";
 const Dashboard = () => {
+  const [currPage, setCurrPage] = useState(1);
+  const [apisPerPage, setApisPerPage] = useState(3);
   const [apis, setAPIs] = useState([]);
 
   const getAllAPIs = async () => {
@@ -19,6 +22,15 @@ const Dashboard = () => {
     getAllAPIs();
   }, []);
 
+  const indexOfLastJob = currPage * apisPerPage;
+  const indexOfFirstJob = indexOfLastJob - apisPerPage;
+  let currAPIs = [];
+  //Get current Jobs to be displayed on that particular page
+  if (indexOfFirstJob >= apis.length) {
+    currAPIs = apis;
+  } else {
+    currAPIs = apis.slice(indexOfFirstJob, indexOfLastJob);
+  }
   return (
     <div className={styles["container"]}>
       <div className={styles["body"]}>
@@ -46,7 +58,6 @@ const Dashboard = () => {
                 View app
               </NavLink>
             </div>
-           
           </div>
         </div>
         <h1 className={styles["side-heading"]}>Mini APP APIs</h1>
@@ -78,12 +89,19 @@ const Dashboard = () => {
         </div>
         <h1 className={styles["side-heading"]}>All APIs available</h1>
         <div className={styles["apis"]}>
-          {
-            apis.map((api, index) => (
-              <HomePageAPICard key={index} api={api}/>
-            ))
-          }
+          {currAPIs.map((api, index) => (
+            <HomePageAPICard key={index} api={api} />
+          ))}
         </div>
+        {apis.length > apisPerPage && (
+          <div className={styles["pagination"]}>
+            <Pagination
+              count={Math.ceil(apis.length / apisPerPage)}
+              currPage={currPage}
+              setCurrPage={setCurrPage}
+            />
+          </div>
+        )}
       </div>
     </div>
   );

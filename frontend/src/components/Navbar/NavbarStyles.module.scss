@@ -11,7 +11,7 @@ $navbar-button-color: #142683;
   // height: 20%;
   display: flex;
   // flex-grow: 1;
-  // align-items: center;
+  align-items: center;
   // color: $color;
   // background-color: aqua;
 
@@ -44,4 +44,48 @@ $navbar-button-color: #142683;
 }
 .unselected {
   @include navbar-button(green);
+}
+.hamburger{
+  cursor: pointer;
+  display: none;
+}
+.mobile-menu{
+  display: flex;
+  flex-direction: column;
+  // justify-content: center;
+  align-items: center;
+}
+.nav-links {
+  background-color: rgb(190, 196, 190);
+  display: none;
+  z-index: 10;
+}
+
+.nav-links a {
+  color: green;
+  padding: 5px 16px;
+  text-decoration: none;
+  font-size: 17px;
+  display: block;
+  text-align: center;
+  border-bottom: 1px solid white;
+}
+
+.nav-links a:hover {
+  background-color: green;
+  color: white;
+}
+@media (max-width: 480px) {
+  .navbar .title{
+    flex-basis: 90%;
+  }
+  
+  .hamburger{
+    display: block;
+  }
+  .navbar .links{
+    display: none;
+    // flex-direction: column;
+    // justify-content: space-between;
+  }
 }

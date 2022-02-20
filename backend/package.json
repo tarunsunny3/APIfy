@@ -6,6 +6,9 @@
   "scripts": {
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
+    "build": "cd ../frontend && npm run build",
+    "install-client": "cd ../frontend && npm install",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm run install-client && npm run build",
     "lint": "npx eslint src/"
   },
   "author": "",

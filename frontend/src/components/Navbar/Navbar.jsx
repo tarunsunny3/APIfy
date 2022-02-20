@@ -25,7 +25,16 @@ const Navbar = () => {
   useEffect(() => {
     window.addEventListener("click", clickOutside);
   }, []);
+  function toggleMenu() {
+    const GFG = document.querySelector(`.${styles["nav-links"]}`);
 
+    if (GFG.style.display === "none") {
+        GFG.style.display = "block";
+    }
+    else {
+        GFG.style.display = "none";
+    }
+}
   return (
     <div className={styles.navbar}>
       {showAPIModal && (
@@ -34,6 +43,18 @@ const Navbar = () => {
       <p onClick={() => navigate("/")} className={styles.title}>
         APIfy
       </p>
+      <div className={styles["mobile-menu"]}>
+      <div onClick={toggleMenu} className={styles["hamburger"]}>
+            <i className="fa fa-bars"></i>
+      </div>
+      
+      <div className={styles["nav-links"]}>
+                <a href="#" onClick={() => {toggleMenu(); navigate("/user-dashboard")}}> My APIs </a>
+                <a href="#" onClick={() => { toggleMenu(); setShowAPIModal(true)}}> +New API </a>
+                <a href="#" onClick={() => {toggleMenu(); Logout()}}> Logout </a>
+      </div>
+      </div>
+      
       <div className={styles.links}>
         {(user === null || user == undefined || user.id == null) && (
           <>
@@ -47,7 +68,10 @@ const Navbar = () => {
         )}
         {user != null && user.id != null && (
           <>
-            <p
+          
+          
+          
+          <p
               onClick={() => navigate("/user-dashboard")}
               className={styles["nav-link"]}
             >
