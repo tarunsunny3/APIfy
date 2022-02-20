@@ -11,8 +11,8 @@
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm run install-client && npm run build",
     "lint": "npx eslint src/"
   },
-  "author": "Tarun",
   "license": "ISC",
+  "author": "Tarun",
   "dependencies": {
     "express": "^4.17.2",
     "bcryptjs": "^2.4.3",
