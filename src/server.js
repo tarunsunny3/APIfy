@@ -42,12 +42,16 @@ db.once('open', () => {
 //Serve  static files
 if(process.env.NODE_ENV == 'production'){
 	app.use(express.static(path.resolve('./frontend', 'build')));
-	app.get('/', (req, res)=>{
+  app.get('/', (req, res)=>{
 		res.sendFile(path.resolve('./frontend', 'build', 'index.html'));
 	});
-	// app.get('/*', (req, res)=>{
-	// 	res.sendFile(path.resolve('./frontend', 'build', 'index.html'));
-	// });
+  app.use('/api/auth', authRouter);
+  app.use('/api/bg', bgRouter);
+  app.use('/api/userAPIs', apiRouter);
+	
+	app.get('/*', (req, res)=>{
+		res.sendFile(path.resolve('./frontend', 'build', 'index.html'));
+	});
 };
 app.get('/', (req, res) => {
   res.send('Welcome to APIfy');
