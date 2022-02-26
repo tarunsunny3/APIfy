@@ -1,5 +1,5 @@
 // GET - #398AB9, POST - #95CD41, PUT - #FBD148, DELETE - #FF2626
-.api-title{
+.api-title {
   text-align: center;
 }
 .modal-box {
@@ -33,7 +33,7 @@
 .modal-content {
   position: absolute;
   background-color: #f4f4f4;
-  height: 80vh;
+  height: 90%;
   //   margin: calc(100vh - 40%) auto;
   left: 50vw;
   top: 50vh;
@@ -54,23 +54,21 @@
 
 /* Media Query for low resolution  Tablets, Ipads */
 @media (min-width: 481px) and (max-width: 767px) {
-  .modal-content{
+  .modal-content {
     width: 80%;
   }
 }
 
 /* Media Query for Tablets Ipads portrait mode */
 @media (min-width: 768px) and (max-width: 1024px) {
-  .modal-content{
+  .modal-content {
     width: 70%;
   }
 }
 
 /* Media Query for Laptops and Desktops */
 @media (min-width: 1025px) and (max-width: 1280px) {
-  .modal-content{
+  .modal-content {
     width: 60%;
   }
 }
-
-

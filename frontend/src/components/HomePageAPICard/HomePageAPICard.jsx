@@ -36,7 +36,7 @@ const HomePageAPICard = (props) => {
   return (
     <div className={styles["api-card"]}>
        {
-        showDetailModal && <APIDetail api={api} />
+        showDetailModal && <APIDetail setShowDetailModal={setShowDetailModal} api={api} />
        }
       {/* <p className={`${styles['icon']} ${styles["close-icon"]}`} onClick={() => handleDelete(id)}>
         <i className="fas fa-window-close"></i>

@@ -89,3 +89,8 @@ $navbar-button-color: #142683;
     // justify-content: space-between;
   }
 }
+@media (min-width: 481px){
+  .mobile-menu{
+    display: none;
+  }
+}

@@ -70,8 +70,7 @@
 .modal-content {
   position: absolute;
   background-color: #f4f4f4;
-  // height: 80vh;
-  //   margin: calc(100vh - 40%) auto;
+  height: 80vh;
   left: 50vw;
   top: 50vh;
   transform: translate(-50%, -50%);
@@ -90,17 +89,19 @@
 //     opacity: 1;
 //   }
 // }
-.api-type{
-  font-size: 10px;
-}
+
 @media (max-width: 480px) {
   .modal-content {
     width: 90%;
+    height: 95%;
   }
   .badges{
     justify-content: space-around;
   }
   .badge{
+    font-size: 10px;
+  }
+  .api-type{
     font-size: 10px;
   }
   
@@ -110,6 +111,7 @@
 @media (min-width: 481px) and (max-width: 767px) {
   .modal-content{
     width: 80%;
+    height: 90%;
   }
 }
 
@@ -117,6 +119,7 @@
 @media (min-width: 768px) and (max-width: 1024px) {
   .modal-content{
     width: 70%;
+    height: 90%;
   }
 }
 
@@ -124,6 +127,7 @@
 @media (min-width: 1025px) and (max-width: 1280px) {
   .modal-content{
     width: 60%;
+    height: 90%;
   }
 }
 

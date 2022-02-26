@@ -107,14 +107,7 @@ const UserDashboard = () => {
                 {currAPIs.map((api, index) => (
                   <APICard
                     key={index}
-                    api={{
-                      apiID: api._id,
-                      apiImage: api.imageUrl || "/api_logo.png",
-                      apiTitle: api.name,
-                      apiDescription:
-                        api.description || "This is a very cool API",
-                      apiEndpoints: api.endpoints,
-                    }}
+                    api={api}
                     handleDelete={handleDelete}
                     handleEdit={handleEdit}
                   />
