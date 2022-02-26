@@ -5,7 +5,7 @@ import App from "./App";
 import axios from "axios";
 import reportWebVitals from "./reportWebVitals";
 
-axios.defaults.baseURL = process.env.REACT_APP_BACKEND_URL;
+// axios.defaults.baseURL = process.env.REACT_APP_BACKEND_URL;
 // axios.defaults.baseURL = "https://apify-mern.herokuapp.com";
 axios.defaults.withCredentials = true;
 
